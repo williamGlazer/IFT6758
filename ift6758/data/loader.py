@@ -6,7 +6,7 @@ import gdown
 
 from ift6758.data.extractor import NHLExtractor
 
-GDRIVE_URL = "https://drive.google.com/uc?id=1Swfx9TAEReBMXkuPwwAR-hHlU1NuAXVt"
+GDRIVE_URL = "https://drive.google.com/uc?id=1Wx8N8pbRbCckZCbX9vm1r1bGFJo3CEKS"
 SEASONS = [
     20162017,
     20172018,
