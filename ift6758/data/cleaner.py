@@ -52,6 +52,15 @@ class NHLCleaner:
             raise FileNotFoundError(f"file not found at {path}")
 
         return data
+    @staticmethod
+    def _is_invalid_game_data(game: dict) -> bool:
+        # 1 gamePk was 12 and not in [01, 02, 03, 04]
+        is_invalid_id = str(game["gamePk"])[4] != '0'
+
+        # 1 game data had no endDateTime field
+        is_invalid_start = "endDateTime" not in game["gameData"]["datetime"]
+
+        return is_invalid_id or is_invalid_start
 
     @staticmethod
     def format_season(path: str) -> pd.DataFrame:
@@ -60,6 +69,10 @@ class NHLCleaner:
         selec_data = []
         game_id = 0
         for game in raw_data:
+
+            if NHLCleaner._is_invalid_game_data(game):
+                continue
+
             game_endtime = game["gameData"]["datetime"]["endDateTime"]
             game_starttime = game["gameData"]["datetime"]["dateTime"]
 
@@ -117,6 +130,6 @@ class NHLCleaner:
 
                     selec_data.append(curr_event)
                     game_id += 1
-        print(game_id)
 
+    
         return pd.DataFrame(selec_data, columns=COLUMNS)
