@@ -56,10 +56,11 @@ class NHLCleaner:
     @staticmethod
     def format_season(path: str) -> pd.DataFrame:
         raw_data = NHLCleaner._pull_json(path)
-
+        raw_data = raw_data[list(raw_data.keys())[0]] 
         selec_data = []
         game_id = 0
         for game in raw_data:
+            
             game_endtime = game["gameData"]["datetime"]["endDateTime"]
             game_starttime = game["gameData"]["datetime"]["dateTime"]
 
@@ -117,6 +118,6 @@ class NHLCleaner:
 
                     selec_data.append(curr_event)
                     game_id += 1
-        print(game_id)
 
+    
         return pd.DataFrame(selec_data, columns=COLUMNS)
