@@ -13,19 +13,7 @@ GOAL_COORDINATES = [(-89, 0), (89, 0)]
 class NHLSimpleVisualization:
     """
     Class to create simple visualizations from a single pandas
-    dataframe created with NHLCleaner. One instance corresponds
-    to one dataframe, in turn corresponding to one season.
-    
-    Examples
-    --------
-    df = NHLCleaner.format_season("data/20162017.json")
-    sv = NHLSimpleVisualization(df)
-    sv.shot_types("figures/q5-1.png", title="Shots taken and goals scored by type (2016-2017)")
-    sv.shot_type_and_distance("figures/q5-3.png", title="Proportion of successful shots by type and distance (2016-2017)")
-    for (s, e) in [("2018", "2019"), ("2019", "2020"), ("2020", "2021")]:
-        df = NHLCleaner.format_season(f"data/{s}{e}.json")
-        sv = NHLSimpleVisualization(df)
-        sv.shot_distance(f"figures/q5-2-{s}{e}.png", title=f"Proportion of successful shots by distance ({s}-{e})")
+    dataframe created with NHLCleaner.
     """
     
     df  = None
@@ -94,7 +82,6 @@ class NHLSimpleVisualization:
         plt.title(title)
         plt.legend()
         plt.savefig(path, dpi = self.dpi, bbox_inches = "tight")
-        plt.clf()
 
     @staticmethod
     def _get_distance(src: Tuple[float, float]) -> float:
@@ -149,7 +136,6 @@ class NHLSimpleVisualization:
             plt.ylabel(ylabel)
             plt.title(title)
             plt.savefig(path, dpi = self.dpi, bbox_inches = "tight")
-            plt.clf()
         
 
     def shot_type_and_distance(self, path: str, bins: int = 10, right: bool = True,
@@ -188,7 +174,6 @@ class NHLSimpleVisualization:
 
         # the matplotlib stuff here is taken mostly from
         # https://matplotlib.org/stable/gallery/mplot3d/surface3d.html
-        plt.figure(__class__._get_fig_counter())
         fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 
         # plot_surface will not accept strings: https://stackoverflow.com/q/41960448/2025742
@@ -209,5 +194,4 @@ class NHLSimpleVisualization:
         ax.set_zlabel(zlabel)
         plt.title(title)
         plt.savefig(path, dpi = self.dpi, bbox_inches = "tight")
-        plt.clf()
-        plt.cla()
+        print(type(cm.viridis))
