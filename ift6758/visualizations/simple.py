@@ -111,7 +111,9 @@ class NHLSimpleVisualization:
             return candidates.min()
             
 
-    def shot_distance(self, path: str = None, bins: int = 10, right: bool = True, draw: bool = True,
+    def shot_distance(self, path: str = None, bins = 10,
+                      bin_labels = None,
+                      right: bool = True, draw: bool = True,
                       color: str = "b",
                       xlabel: str = "Distance",
                       ylabel: str = "Proportion of successful shots",
@@ -124,8 +126,10 @@ class NHLSimpleVisualization:
         ----------
         path : str
             The path and file name where to save the visualization
-        bins : int
-            How many bins to split the distance in
+        bins : (see pandas.cut documentation)
+            Passed on to pandas.cut as its "bins" argument
+        bin_labels : (see pandas.cut documentation)
+            Passed on to pandas.cut as its "labels" argument
         right : bool
             Wether to use right-open or right-closed intervals for the bins
         draw : bool
@@ -143,7 +147,7 @@ class NHLSimpleVisualization:
         """
         self.df["distance"] = self.df.apply(lambda x: __class__._get_distance((x["x_coords"], x["y_coords"])), axis=1)
         # cast category as str makes it easier to use it in the plot
-        self.df["distance cut"] = pd.cut(self.df["distance"], bins=bins, right=right).astype("str")
+        self.df["distance cut"] = pd.cut(self.df["distance"], bins=bins, labels=bin_labels, right=right).astype("str")
         gb = self.df[["distance cut", "goal"]].groupby(["distance cut"]).agg(goals=("goal", "sum"), shots=("goal", "count")).drop("nan", errors="ignore")
         if draw:
             plt.figure(__class__._get_fig_counter())
