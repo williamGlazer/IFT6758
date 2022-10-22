@@ -61,7 +61,7 @@ class NHLSimpleVisualization:
                    title: str = "Shots taken and goals scored by type",
                    rotation: int = 45) -> None:
         """
-        Creates the visualization of question 5.1 and saves it to a file.
+        Creates the visualization of question 5.1 and optionally saves it to a file.
         
         Parameters
         ----------
@@ -120,7 +120,7 @@ class NHLSimpleVisualization:
                       title: str = "Proportion of successful shots by distance",
                       rotation: int = 90) -> None:
         """
-        Creates a visualization of question 5.2 and saves it to a file.
+        Creates a visualization of question 5.2 and optionally saves it to a file.
         
         Parameters
         ----------
@@ -163,21 +163,25 @@ class NHLSimpleVisualization:
             plt.clf()
         
 
-    def shot_type_and_distance(self, path: str = None, bins: int = 10, right: bool = True,
+    def shot_type_and_distance(self, path: str = None, bins = 10,
+                      bin_labels = None,
+                      right: bool = True,
                       cmap: ListedColormap = cm.viridis,
                       xlabel: str = "Distance",
                       ylabel: str = "Type",
                       zlabel: str = "Proportion of successful shots",
                       title: str = "Proportion of successful shots by type and distance") -> None:
         """
-        Creates the visualization of question 5.3 and saves it to a file.
+        Creates the visualization of question 5.3 and optionally saves it to a file.
         
         Parameters
         ----------
         path : str
             The path and file name where to save the visualization
-        bins : int
-            How many bins to split the distance in
+        bins : (see pandas.cut documentation)
+            Passed on to pandas.cut as its "bins" argument
+        bin_labels : (see pandas.cut documentation)
+            Passed on to pandas.cut as its "labels" argument
         right : bool
             Wether to use right-open or right-closed intervals for the bins
         cmap : matplotlib.colors.ListedColormap
@@ -225,3 +229,45 @@ class NHLSimpleVisualization:
             plt.savefig(path, dpi = self.dpi, bbox_inches = "tight")
         plt.clf()
         plt.cla()
+
+    def shot_type_and_distance_stacked(self, path: str = None, bins = 10,
+                      bin_labels = None,
+                      right: bool = True,
+                      cmap: ListedColormap = cm.viridis,
+                      xlabel: str = "Distance",
+                      ylabel: str = "Proportion of successful shots",
+                      title: str = "Proportion of successful shots by type and distance") -> None:
+        """
+        Creates an alternative visualization of question 5.3 and optionally saves it to a file.
+        
+        Parameters
+        ----------
+        path : str
+            The path and file name where to save the visualization
+        bins : (see pandas.cut documentation)
+            Passed on to pandas.cut as its "bins" argument
+        bin_labels : (see pandas.cut documentation)
+            Passed on to pandas.cut as its "labels" argument
+        right : bool
+            Wether to use right-open or right-closed intervals for the bins
+        cmap : matplotlib.colors.ListedColormap
+            Surface colour map
+        xlabel : str
+            Label for x axis
+        ylabel : str
+            Label for y axis
+        title : str
+            Title for figure
+        """
+        # compute distance stuff if shot_distance() was not called before
+        if "distance" not in self.df.columns:
+            self.shot_distance(bins = bins, right = right, draw = False)
+
+        new_df = self.df[["shot type", "goal", "distance cut"]].pivot_table(index="distance cut", columns="shot type", values="goal", aggfunc="mean").drop("nan", axis=0).ffill()
+        plt.figure(__class__._get_fig_counter())
+        fig = new_df.plot.area(title=title, xlabel=xlabel, ylabel=ylabel, colormap=cmap).get_figure()
+        if path is None:
+            fig.show()
+        else:
+            fig.savefig(path, dpi = self.dpi, bbox_inches = "tight")
+        plt.clf()
