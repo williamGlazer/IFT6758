@@ -20,12 +20,12 @@ class NHLSimpleVisualization:
     --------
     df = NHLCleaner.format_season("data/20162017.json")
     sv = NHLSimpleVisualization(df)
-    sv.shot_types("figures/q5-1.png", title="Shots taken and goals scored by type (2016-2017)")
-    sv.shot_type_and_distance("figures/q5-3.png", title="Proportion of successful shots by type and distance (2016-2017)")
+    sv.shot_types(path="figures/q5-1.png", title="Shots taken and goals scored by type (2016-2017)")
+    sv.shot_type_and_distance(path="figures/q5-3.png", title="Proportion of successful shots by type and distance (2016-2017)")
     for (s, e) in [("2018", "2019"), ("2019", "2020"), ("2020", "2021")]:
         df = NHLCleaner.format_season(f"data/{s}{e}.json")
         sv = NHLSimpleVisualization(df)
-        sv.shot_distance(f"figures/q5-2-{s}{e}.png", title=f"Proportion of successful shots by distance ({s}-{e})")
+        sv.shot_distance(path=f"figures/q5-2-{s}{e}.png", title=f"Proportion of successful shots by distance ({s}-{e})")
     """
     
     df  = None
@@ -54,7 +54,7 @@ class NHLSimpleVisualization:
         __class__.fig_counter += 1
         return i
     
-    def shot_types(self, path: str, label1: str = "Shots", label2: str = "Goals",
+    def shot_types(self, path: str = None, label1: str = "Shots", label2: str = "Goals",
                    color1: str = "b", color2: str = "g",
                    xlabel: str = "Shots taken or goals scores",
                    ylabel: str = "Shot type",
@@ -67,6 +67,7 @@ class NHLSimpleVisualization:
         ----------
         path : str
             The path and file name where to save the visualization
+            (if not provided, will use matplotlib.pyplot.show())
         label1 : str
             Legend label for shots
         label2 : str
@@ -93,7 +94,10 @@ class NHLSimpleVisualization:
         plt.ylabel(ylabel)
         plt.title(title)
         plt.legend()
-        plt.savefig(path, dpi = self.dpi, bbox_inches = "tight")
+        if path is None:
+            plt.show()
+        else:
+            plt.savefig(path, dpi = self.dpi, bbox_inches = "tight")
         plt.clf()
 
     @staticmethod
@@ -107,7 +111,7 @@ class NHLSimpleVisualization:
             return candidates.min()
             
 
-    def shot_distance(self, path: str, bins: int = 10, right: bool = True, draw: bool = True,
+    def shot_distance(self, path: str = None, bins: int = 10, right: bool = True, draw: bool = True,
                       color: str = "b",
                       xlabel: str = "Distance",
                       ylabel: str = "Proportion of successful shots",
@@ -148,11 +152,14 @@ class NHLSimpleVisualization:
             plt.xlabel(xlabel)
             plt.ylabel(ylabel)
             plt.title(title)
-            plt.savefig(path, dpi = self.dpi, bbox_inches = "tight")
+            if path is None:
+                plt.show()
+            else:
+                plt.savefig(path, dpi = self.dpi, bbox_inches = "tight")
             plt.clf()
         
 
-    def shot_type_and_distance(self, path: str, bins: int = 10, right: bool = True,
+    def shot_type_and_distance(self, path: str = None, bins: int = 10, right: bool = True,
                       cmap: ListedColormap = cm.viridis,
                       xlabel: str = "Distance",
                       ylabel: str = "Type",
@@ -182,7 +189,7 @@ class NHLSimpleVisualization:
         """
         # compute distance stuff if shot_distance() was not called before
         if "distance" not in self.df.columns:
-            self.shot_distance(None, bins = bins, right = right, draw = False)
+            self.shot_distance(bins = bins, right = right, draw = False)
 
         new_df = self.df[["shot type", "goal", "distance cut"]].pivot_table(index="shot type", columns="distance cut", values="goal", aggfunc="mean").drop("nan", axis=1).ffill()
 
@@ -208,6 +215,9 @@ class NHLSimpleVisualization:
         ax.set_ylabel(ylabel)
         ax.set_zlabel(zlabel)
         plt.title(title)
-        plt.savefig(path, dpi = self.dpi, bbox_inches = "tight")
+        if path is None:
+            plt.show()
+        else:
+            plt.savefig(path, dpi = self.dpi, bbox_inches = "tight")
         plt.clf()
         plt.cla()
