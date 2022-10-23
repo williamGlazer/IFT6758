@@ -1,16 +1,24 @@
 ---
 layout: post
-title: Visualozations Simples - A Completer
+title: Visualisations simples
 ---
 
-```
-Produisez un graphique comparant les types de tirs sur toutes les équipes dans une saison de votre choix (i.e. agrégez juste sur tous les tirs). Superposez le nombre de buts sur le nombre de tirs. Quel semble être le type de tir le plus dangereux ? Le type de tir le plus courant? Pourquoi est-ce que vous avez choisi ce type de graphique. Ajoutez cette figure et cette discussion à votre article de blog.
-```
+Visualisations simples
+======================
 
-```
-Quelle est la relation entre la distance à laquelle un tir a été effectué et la chance qu’il s’agisse d’un but ? Produisez un graphique pour chaque saison entre 2018-19 et 2020-21 pour répondre à cette question, et ajoutez-le à votre article de blog avec quelques phrases décrivant votre silhouette. Y a-t-il eu beaucoup de changements au cours des trois dernières saisons? Pourquoi est-ce que vous avez choisi ce type de graphique?
-```
+Types de tir
+------------
 
-```
-Combinez les informations des sections précédentes pour produire un graphique qui montre le pourcentage de buts (# buts / # tirs) en fonction à la fois de la distance par rapport au filet et de la catégorie de types de tirs (vous pouvez choisir une seule saison de votre choix) brièvement Discutez de vos conclusions ; Par exemple, quels pourraient être les types de tirs les plus dangereux ?
-```
+![Histogramme des tirs et buts en fonction du type de tir (saison 2016-2017)](figures/q5-1.png)
+
+Distance de tir
+---------------
+
+![Histogramme des buts en fonction de la distance (saison 2018-2019)](figures/q5-2-20182019.png)
+![Histogramme des buts en fonction de la distance (saison 2019-2020)](figures/q5-2-20192020.png)
+![Histogramme des buts en fonction de la distance (saison 2020-2021)](figures/q5-2-20202021.png)
+
+Types et distance de tir
+------------------------
+
+![Graphie en aires des buts en fonction du type de tir et de la distance (saison 2016-2017)](figures/q5-3.png)
