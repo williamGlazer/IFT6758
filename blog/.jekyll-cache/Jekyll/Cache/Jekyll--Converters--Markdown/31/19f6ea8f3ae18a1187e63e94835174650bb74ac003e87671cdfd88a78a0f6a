@@ -1,0 +1,14 @@
+I"�
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dans votre article de blog, incluez un petit extrait de votre cadre de données final (par exemple, en utilisant head(10)). Vous pouvez simplement inclure une capture d'écran plutôt que de vous battre pour que les tableaux soient soigneusement formatés en HTML/markdown. 
+</code></pre></div></div>
+<p><img src="/images/clean_data.png" alt="Clean Data" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Vous remarquerez que le champ de « force » (c.-à-d. égal, avantage numérique, en désavantage numérique) n'existe que pour les buts, pas pour les tirs. De plus, il n'inclut pas la force réelle des joueurs sur la glace (c'est-à-dire 5 contre 4, ou 5 contre 3, etc.). Discutez de la façon dont vous pourriez ajouter les informations sur la force réelle (c'est-à-dire 5 contre 4, etc.) aux tirs et aux buts, compte tenu des autres types d'événements (au-delà des tirs et des buts) et des fonctionnalités disponibles. Vous n'avez pas besoin de l'implémenter pour ce jalon.
+</code></pre></div></div>
+<p>Chaque match commence avec le même nombre de joueurs et les joueurs sont enlevés du terrain suite à des pénalités. Il serait donc envisageable de calculer, à l’aide des timestamps et des événements définissants les différents penalités, combien de joueurs il y a sur le terrain pour chaque évenement. Les évenements de types “Penalty” stockent les durées des pénalties (“penaltyMinutes”) permettant de détérminer quand les forces se rééquilibrent.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>En quelques phrases, discutez d’au moins 3 fonctionnalités supplémentaires que vous pourriez envisager de créer à partir des données disponibles dans cet ensemble de données. Nous ne cherchons pas de réponses particulières, mais si vous avez besoin d’inspiration, un tir ou un but pourrait-il être classé comme un rebond/tir dans le rush (expliquez comment déterminer entre ceux-ci?
+</code></pre></div></div>
+<p>En plus des events qui ont été sélectionnés il serait interessant de considérer les ‘Missed Shots’ et ‘Blocked Shots’ pour analyser si elles sont ratées parce qu’elles sont prises à une certaine distance. On pourrait aussi envisager qu’il y ait une correlation entre le nombre de penalties d’une équipe et le nombre de shots pris. Finalement, nous avons choisis de tirer les données sur les joueurs qui ont participé aux tirs afin de déterminer et inclur le taux de reussite.</p>
+
+:ET
