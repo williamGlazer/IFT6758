@@ -39,7 +39,6 @@ full_path = os.getcwd()
 root_path = str(Path(full_path).parents[0])
 
 #define initial parameters
-im      = Image.open(r'{r}/IFT6758/figures/nhl_rink.png'.format(r=root_path)) 
 im2     = Image.open(r'{r}/IFT6758/figures/nhl_rink_top.png'.format(r=root_path)) 
 seasons = ['20162017','20172018','20182019','20192020', '20202021']
 teams   = ['NOP','NJD','NYI','NYR','PHI','PIT','BOS','BUF','MTL','OTT','TOR','FLA','WSH','CHI','DET','NSH','STL','CGY','COL','EDM','VAN','ANA','DAL','LAK','SJS','CBJ','MIN','WPG','ARI','VGK','SEA']
@@ -176,13 +175,23 @@ def update_graph(season,team):
     )
     
     # header title -------------------------- 
-    fig.add_annotation(x=.5, y=-22,
+    fig.add_annotation(x=.5, y=-32,
             text="Unblocked Shot Rate",
             showarrow=False,
             font=dict(
                 family="verdana, Arial",
                 size=18, 
                 color="#333333",
+            )
+    )
+    # header Description -------------------- 
+    fig.add_annotation(x=.5, y=-22,
+            text='season: {s} team: {t} '.format(s=season,t=team),
+            showarrow=False,
+            font=dict(
+                family="verdana, Arial",
+                size=16, 
+                color="#888888",
             )
     )
     
@@ -202,7 +211,8 @@ def update_graph(season,team):
         margin=dict(t=50, b=0, l=50, r=0), # graph margins
         template="plotly_white"
     )
-
+    #save locally a static html page
+    fig.write_html('blog/_posts/plotly_{s}_{t}.html'.format(s=season,t=team), include_plotlyjs=True)
     return fig 
 
     
@@ -220,8 +230,6 @@ app.layout = html.Div(children=[
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
-
+    
 
 
