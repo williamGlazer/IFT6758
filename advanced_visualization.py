@@ -40,7 +40,7 @@ root_path = str(Path(full_path).parents[0])
 
 #define initial parameters
 im2     = Image.open(r'{r}/IFT6758/figures/nhl_rink_top.png'.format(r=root_path)) 
-seasons = ['20162017','20172018','20182019','20192020', '20202021']
+seasons = ['20162017','20172018','20182019','20192020', '20202021', '20212022']
 teams   = ['NJD','NYI','NYR','PHI','PIT','BOS','BUF','MTL','OTT','TOR','FLA','WSH','CHI','DET','NSH','STL','CGY','COL','EDM','VAN','ANA','DAL','LAK','SJS','CBJ','MIN','WPG','ARI','TBL','CAR']
 
 
