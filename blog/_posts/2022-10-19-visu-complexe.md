@@ -16,15 +16,12 @@ Dans ces graphes, on peut voir de quel régions les différentes équipes arrive
 Ceci nous permet de voir l'efficacité des startégies et les différentes faiblesses des équipes.
 
 
-Select Season 
+Select Season  
+Fixed to 2016-2018 for hand-in due to filesize exceeding gradescope limits otherwise
+
 <select id='season' onchange='refreshplot()'>
-	<option value=''>...</option>
 	<option value='20162017'>2016-2017</option>
 	<option value='20172018'>2017-2018</option>
-	<option value='20182019'>2018-2019</option>
-	<option value='20192020'>2019-2020</option>
-	<option value='20202021'>2020-2021</option>
-	<option value='20212022'>2021-2022</option>
 </select>
 
 Select Team 
