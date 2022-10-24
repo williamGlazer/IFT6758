@@ -1,0 +1,16 @@
+I"k<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Rédigez un bref tutoriel sur la façon dont votre équipe a téléchargé l’ensemble de données. Imaginez :) que vous cherchiez un guide sur la façon de télécharger les données play-by-play ; votre guide devrait vous faire dire “Parfait - c’est exactement ce que je cherchais!”. Inclure votre fonction/classe et un exemple de comment l’utiliser.
+</code></pre></div></div>
+
+<p>Executer le notebook <code class="language-plaintext highlighter-rouge">notebooks/data_extraction.ipynb</code>:</p>
+
+<p>Telechargera les données brutes à <code class="language-plaintext highlighter-rouge">../data/raw/[YEARYEAR].json</code> sous format JSON
+Telechargera les données nettoyées seront dossier <code class="language-plaintext highlighter-rouge">../data/tabular/</code> sous format csv. Il suffit ensuite de lire le csv local pour les précédures suivantes.
+Ce notebook utilise le package construit dans <code class="language-plaintext highlighter-rouge">ift6758/data</code>, contenant les classes suivantes:</p>
+
+<ul>
+  <li>NHLExtractor</li>
+  <li>NHLLoader</li>
+  <li>NHLCleaner
+Deux méthodes sont disponibles pour téléchargées à partir de NHLLoader, les données brutes: directement de l’API ou par gdrive. Le contient les 2 methodes, l’une commentée.</li>
+</ul>
+:ET
