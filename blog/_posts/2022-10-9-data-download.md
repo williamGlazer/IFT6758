@@ -1,19 +1,30 @@
 ---
 layout: post
-title: Download the Data, tutoriel
+title: Téléchargement de Données
 ---
 
+Éxécuter le notebook `notebooks/data_extraction.ipynb` qui fait les actions suivantes:
+1. télécharge les données brutes à `../data/raw/[YEARYEAR].json` sous format .JSON
+2. nettoie les données et sauvegarde sous `../data/tabular/` en format csv.
+
+Voici le code exécuté par le notebook:
+```Python
+from ift6758 import NHLLoader, NHCleaner
+
+# Either download from API or extracted data from GDrive
+NHLLoader.from_api(out_dir='../data/raw/')
+# OR
+NHLLoader.from_gdrive(out_dir="../data/raw/")
+
+for season in [
+    20162017,
+    20172018,
+    ...
+]:
+    df = NHLCleaner.format_season(f'../data/raw/{season}.json')
+    df.to_csv(f'../data/tabular/{season}.csv', index=False)
 ```
-Rédigez un bref tutoriel sur la façon dont votre équipe a téléchargé l’ensemble de données. Imaginez :) que vous cherchiez un guide sur la façon de télécharger les données play-by-play ; votre guide devrait vous faire dire “Parfait - c’est exactement ce que je cherchais!”. Inclure votre fonction/classe et un exemple de comment l’utiliser.
-```
 
-Executer le notebook `notebooks/data_extraction.ipynb`:
+Nous avons ajouté une méthode pour télécharger les données directement de GDrive afin de ne pas spam l'API de la LNH.
 
-Telechargera les données brutes à `../data/raw/[YEARYEAR].json` sous format JSON
-Telechargera les données nettoyées seront dossier `../data/tabular/` sous format csv. Il suffit ensuite de lire le csv local pour les précédures suivantes.
-Ce notebook utilise le package construit dans `ift6758/data`, contenant les classes suivantes:
-
-- NHLExtractor
-- NHLLoader
-- NHLCleaner
-Deux méthodes sont disponibles pour téléchargées à partir de NHLLoader, les données brutes: directement de l’API ou par gdrive. Le contient les 2 methodes, l’une commentée.
+Si vous ne voulez pas télécharger notre code python et l'installer en tant que package, vous pouvez aussi consulter le code source dans notre répertoire GitHub.

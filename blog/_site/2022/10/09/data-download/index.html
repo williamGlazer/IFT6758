@@ -9,7 +9,7 @@
 
   <title>
     
-      Download the Data, tutoriel &middot; IFT6758 Blog
+      Téléchargement de Données &middot; IFT6758 Blog
     
   </title>
 
@@ -92,23 +92,34 @@
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">Download the Data, tutoriel</h1>
+  <h1 class="post-title">Téléchargement de Données</h1>
   <span class="post-date">09 Oct 2022</span>
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Rédigez un bref tutoriel sur la façon dont votre équipe a téléchargé l’ensemble de données. Imaginez :) que vous cherchiez un guide sur la façon de télécharger les données play-by-play ; votre guide devrait vous faire dire “Parfait - c’est exactement ce que je cherchais!”. Inclure votre fonction/classe et un exemple de comment l’utiliser.
-</code></pre></div></div>
+  <p>Éxécuter le notebook <code class="language-plaintext highlighter-rouge">notebooks/data_extraction.ipynb</code> qui fait les actions suivantes:</p>
+<ol>
+  <li>télécharge les données brutes à <code class="language-plaintext highlighter-rouge">../data/raw/[YEARYEAR].json</code> sous format .JSON</li>
+  <li>nettoie les données et sauvegarde sous <code class="language-plaintext highlighter-rouge">../data/tabular/</code> en format csv.</li>
+</ol>
 
-<p>Executer le notebook <code class="language-plaintext highlighter-rouge">notebooks/data_extraction.ipynb</code>:</p>
+<p>Voici le code exécuté par le notebook:</p>
+<pre><code class="language-Python">from ift6758 import NHLLoader, NHCleaner
 
-<p>Telechargera les données brutes à <code class="language-plaintext highlighter-rouge">../data/raw/[YEARYEAR].json</code> sous format JSON
-Telechargera les données nettoyées seront dossier <code class="language-plaintext highlighter-rouge">../data/tabular/</code> sous format csv. Il suffit ensuite de lire le csv local pour les précédures suivantes.
-Ce notebook utilise le package construit dans <code class="language-plaintext highlighter-rouge">ift6758/data</code>, contenant les classes suivantes:</p>
+# Either download from API or extracted data from GDrive
+NHLLoader.from_api(out_dir='../data/raw/')
+# OR
+NHLLoader.from_gdrive(out_dir="../data/raw/")
 
-<ul>
-  <li>NHLExtractor</li>
-  <li>NHLLoader</li>
-  <li>NHLCleaner
-Deux méthodes sont disponibles pour téléchargées à partir de NHLLoader, les données brutes: directement de l’API ou par gdrive. Le contient les 2 methodes, l’une commentée.</li>
-</ul>
+for season in [
+    20162017,
+    20172018,
+    ...
+]:
+    df = NHLCleaner.format_season(f'../data/raw/{season}.json')
+    df.to_csv(f'../data/tabular/{season}.csv', index=False)
+</code></pre>
+
+<p>Nous avons ajouté une méthode pour télécharger les données directement de GDrive afin de ne pas spam l’API de la LNH.</p>
+
+<p>Si vous ne voulez pas télécharger notre code python et l’installer en tant que package, vous pouvez aussi consulter le code source dans notre répertoire GitHub.</p>
 
 </div>
 
@@ -120,7 +131,7 @@ Deux méthodes sont disponibles pour téléchargées à partir de NHLLoader, les
       <li>
         <h3>
           <a href="/2022/10/19/visu-complexe/">
-            Visualizations Complexes - A Completer
+            Visualizations Complexes
             <small>19 Oct 2022</small>
           </a>
         </h3>
@@ -129,7 +140,7 @@ Deux méthodes sont disponibles pour téléchargées à partir de NHLLoader, les
       <li>
         <h3>
           <a href="/2022/10/18/visu-simple/">
-            Visualozations Simples - A Completer
+            Visualisations simples
             <small>18 Oct 2022</small>
           </a>
         </h3>
@@ -138,7 +149,7 @@ Deux méthodes sont disponibles pour téléchargées à partir de NHLLoader, les
       <li>
         <h3>
           <a href="/2022/10/10/tidy-data/">
-            Tidy Data
+            Données Propes
             <small>10 Oct 2022</small>
           </a>
         </h3>

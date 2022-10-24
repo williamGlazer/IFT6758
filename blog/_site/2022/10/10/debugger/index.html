@@ -9,7 +9,7 @@
 
   <title>
     
-      Debugger - A Completer &middot; IFT6758 Blog
+      Debugger &middot; IFT6758 Blog
     
   </title>
 
@@ -92,10 +92,71 @@
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">Debugger - A Completer</h1>
+  <h1 class="post-title">Debugger</h1>
   <span class="post-date">10 Oct 2022</span>
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Implémentez un ipywidget qui vous permet de parcourir tous les événements, pour chaque match d’une saison donnée, avec la possibilité de changer entre la saison régulière et les séries éliminatoires. Dessinez les coordonnées de l’événement sur l’image de la patinoire fournie, similaire à l’exemple ci-dessous (vous pouvez simplement imprimer les données de l’événement lorsqu’il n’y a pas de coordonnées). Vous pouvez également imprimer toutes les informations que vous jugez utiles, telles que les métadonnées du jeu/boxscores et les résumés d’événements (mais ce n’est pas obligatoire). Prenez une capture d’écran de l’outil et ajoutez-la à l’article de blog, accompagnée du code de l’outil et d’une brève description (1-2 phrases) de ce que fait votre outil. Vous n’avez pas à vous soucier de l’intégration de l’outil dans le blogpost.
-</code></pre></div></div>
+  <p>Nous avons ici un déboggueur qui charge les fichiers .JSON bruts et qui affiche les jeux. Le code permet de charger de manière dynamique les .JSON.</p>
+
+<p>La classe <code class="language-plaintext highlighter-rouge">Data</code> permet de storer des données entre les appels de la fonction et simplifie les opérations.</p>
+
+<pre><code class="language-Python">class Data:
+    """
+    Stateful class to store data and print information
+    """
+    year: int = None
+    game_id: int = None
+    play_id: int = None
+    _data: dict = None
+
+    def set(self, year, game_id, play_id):
+        # only load large json data (&gt;100MB) of needed
+        if year != self.year:
+            with open(f'../data/raw/{year}.json', 'r') as f:
+                self._data = json.load(f)
+
+        self.year = year
+        self.game_id = game_id
+        self.play_id = play_id
+
+    def display(self):
+        display(
+            self._data[self.game_id]['liveData']['plays']['allPlays'][self.play_id]
+        )
+
+    def update_plot(self, fig: plt.figure, circle: plt.Circle):
+        coords = self._data[self.game_id]['liveData']['plays']['allPlays'][self.play_id]['coordinates']
+        if coords:
+            circle.set(visible=True, center=(coords['x'], coords['y']))
+        else:
+            circle.set(visible=False)
+        fig.canvas.draw()
+        display.display(plt.gcf())
+</code></pre>
+
+<p>La boucle principale <code class="language-plaintext highlighter-rouge">plot</code> permet de faire les bons appels selon ce qui est à démontrer</p>
+
+<pre><code class="language-Python">%matplotlib notebook
+fig, ax = plt.subplots()
+
+img_data = plt.imread('../blog/figures/nhl_rink.png')
+img = plt.imshow(img_data, extent=[-100,100,-42.5,42.5])
+
+circle = plt.Circle((0,0), 5, color='r')
+ax.add_patch(circle)
+
+data = Data()
+
+@interact(
+    year=[("2016-2017", 20162017), ("2017-2018", 20172018)],
+    game_id=(0,1200),
+    play_id=(0,500),
+)
+def plot(year, game_id, play_id):
+    data.set(year, game_id, play_id)
+    data.display()
+    data.update_plot(fig, circle)
+</code></pre>
+
+<p><img src="/figures/debugger.png" alt="debugger" /></p>
 
 </div>
 
@@ -107,7 +168,7 @@
       <li>
         <h3>
           <a href="/2022/10/19/visu-complexe/">
-            Visualizations Complexes - A Completer
+            Visualizations Complexes
             <small>19 Oct 2022</small>
           </a>
         </h3>
@@ -116,7 +177,7 @@
       <li>
         <h3>
           <a href="/2022/10/18/visu-simple/">
-            Visualozations Simples - A Completer
+            Visualisations simples
             <small>18 Oct 2022</small>
           </a>
         </h3>
@@ -125,7 +186,7 @@
       <li>
         <h3>
           <a href="/2022/10/10/tidy-data/">
-            Tidy Data
+            Données Propes
             <small>10 Oct 2022</small>
           </a>
         </h3>

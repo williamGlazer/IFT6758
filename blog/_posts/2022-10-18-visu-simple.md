@@ -3,19 +3,16 @@ layout: post
 title: Visualisations simples
 ---
 
-Visualisations simples
-======================
-
 Types de tir
 ------------
 
-Dans le respect des consignes, qui exigeaient de superposer le nombre de tirs et le nombre de buts de chaque type, nous avons réalisé un diagramme à barres empilées où chaque barre représente un type de tir. Cependant, ce n'est pas nécessairement la visualisation idéale pour répondre à toutes les questions ici.
+Dans le respect des consignes, qui exigeaient de superposer le nombre de tirs et le nombre de buts de chaque type, nous avons réalisé un diagramme à barres empilées où chaque barre représente un type de tir. Cependant, puique plusieurs questions ont été posé en même temps, il est évident qu'un graphique par question serait idéal.
 
 ![Histogramme des tirs et buts en fonction du type de tir (saison 2016-2017)](figures/q5-1.png)
 
-Si on constate aisément que le «wrist shot» est le type le plus courant, suivi loin derrière par les «slap shots» et les «snap shots», le diagramme donne par contre l'impression que les «wrist shots» et les «snap shots» sont particulièrement redoutables, alors que nos données indiquent que ce ne sont pas les types de tir qui se traduisent proportionnellement par le plus de buts.
+On constate que le *wrist shot* est le type le plus courant, suivi loin derrière par les *slap shots* et les *snap shots*. Le diagramme montre que *wrist shots* et les *snap shots* sont particulièrement redoutables en termes absolut. Par contre les données démontrent que ce ne sont pas les types de tir qui se traduisent par le plus haut taux de succès.
 
-Une visualisation combinant, par exemple, une barre représentant le nombre de tirs de chaque type accompagné d'une ligne représentant la *proportion* de ces tirs résultant en un but aurait été plus parlante, et aurait par exemple révélé que les types de tir les plus redoutables sont «deflected» et «tip-in».
+Une visualisation combinant, par exemple, une barre représentant le nombre de tirs de chaque type accompagné d'une ligne représentant la *proportion* de ces tirs résultant en un but aurait été plus parlante, et aurait par exemple révélé que les types de tir les plus redoutables sont *deflected* et *tip-in*.
 
 Distance de tir
 ---------------
@@ -37,14 +34,14 @@ D'autre part, on remarque une différence assez importante au niveau du taux de 
 Types et distance de tir
 ------------------------
 
-Nous avons utilisé deux types de visualisation pour cette question. Le diagramme en aires est plus facile à lire de façon générale, mais certains «insights» n'en ressortent pas aussi bien. Un diagramme tridimensionnel présentant la distance et le type de tir sur chacun des deux axes horizontaux et la proportion de succès sur l'axe vertical est plus difficile à lire, mais fait ressortir certains points intéressants.
+Nous avons utilisé deux types de visualisation pour cette question. Le diagramme en aires est plus facile à lire de façon générale, mais certains *insights* n'en ressortent pas aussi bien. Un diagramme tridimensionnel présentant la distance et le type de tir sur chacun des deux axes horizontaux et la proportion de succès sur l'axe vertical est plus difficile à lire, mais fait ressortir certains points intéressants.
 
 ![Graphie en aires des buts en fonction du type de tir et de la distance (saison 2016-2017)](figures/q5-3.png)
 ![Graphie en aires des buts en fonction du type de tir et de la distance (saison 2016-2017)](figures/q5-3-stacked.png)
 
-Encore une fois, afin de répondre aux exigences de l'énoncé, nous avons représenté la proportion de tirs ayant donné lieu à des buts, mais ici une représentation du nombre de tirs et de buts aurait été utile. Par exemple, les deux représentations donnent à penser que le tir de type «wrap around» est extrêmement redoutable à grande distance, mais il est permis de penser qu'il s'agit probablement simplement de bruit, d'autant qu'un tir «wrap around» à longue distance ne semble pas vraiment avoir de sens.
+Encore une fois, afin de répondre aux exigences de l'énoncé, nous avons représenté la proportion de tirs ayant donné lieu à des buts, mais ici une représentation du nombre de tirs et de buts aurait été utile. Par exemple, les deux représentations donnent à penser que le tir de type *wrap around* est extrêmement redoutable à grande distance, mais il est permis de penser qu'il s'agit probablement simplement de bruit, d'autant qu'un tir *wrap around* à longue distance ne semble pas vraiment avoir de sens.
 
-Cela dit, on constate que le type de tir le plus efficace dépend grandement de la distance. À courte distance, les tirs les plus efficaces identifiés plus haut sont redoutables, par exemple «deflected» et «tip in». Par contre, à plus longue distance, des types de tir qui ne ressortaient pas vraiment initialement semblent les plus efficaces, en particulier le «wrist shot» et le «backhand».
+Cela dit, on constate que le type de tir le plus efficace dépend grandement de la distance. À courte distance, les tirs les plus efficaces identifiés plus haut sont redoutables, par exemple *deflected* et *tip in*. Par contre, à plus longue distance, des types de tir qui ne ressortaient pas vraiment initialement semblent les plus efficaces, en particulier le *wrist shot* et le *backhand*.
 
 
 

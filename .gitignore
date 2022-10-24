@@ -1,5 +1,11 @@
 data/
-.vscode/
+**/.vscode/
+**/.jekyll-cache/
+**/.bundle/
+**/vendor/
+**/_site/
+.idea/
+blog/plots/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

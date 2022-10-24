@@ -4,7 +4,7 @@
  <title>IFT6758 Blog</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2022-10-23T11:47:10-04:00</updated>
+ <updated>2022-10-24T17:44:48-04:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Mark Otto</name>
@@ -13,90 +13,310 @@
 
  
  <entry>
-   <title>Visualizations Complexes - A Completer</title>
+   <title>Visualizations Complexes</title>
    <link href="http://localhost:4000/2022/10/19/visu-complexe/"/>
    <updated>2022-10-19T00:00:00-04:00</updated>
    <id>http://localhost:4000/2022/10/19/visu-complexe</id>
-   <content type="html">&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Exportez les 4 tracés de zone offensive au format HTML et intégrez-les dans votre article de blog. Votre parcelle doit permettre aux utilisateurs de sélectionner n’importe quelle équipe au cours de la saison sélectionnée. Note: Parce que vous pouvez trouver ces chiffres sur internet, répondre à ces questions sans produire ces chiffres ne vous rapportera pas de points !
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+   <content type="html">&lt;!--
+Exportez les 4 tracés de zone offensive au format HTML et intégrez-les dans votre article de blog. Votre parcelle doit permettre aux utilisateurs de sélectionner n’importe quelle équipe au cours de la saison sélectionnée. Note: Parce que vous pouvez trouver ces chiffres sur internet, répondre à ces questions sans produire ces chiffres ne vous rapportera pas de points !
+--&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Discutez (en quelques phrases) de ce que vous pouvez interpréter à partir de ces graphiques.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;densité-de-tirs&quot;&gt;Densité de tirs&lt;/h2&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Considérez l’Avalanche du Colorado; jetez un œil à leur carte de tir au cours de la saison 2016-17. Discutez de ce que vous pourriez dire sur l’équipe au cours de cette saison. Regardez maintenant la carte des plans de l’Avalanche du Colorado pour la saison 2020-21 et discutez de ce que vous pourriez conclure de ces différences. Est-ce que ça a du sens? Astuce : regardez le classement.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Le graphique montre la densité de tirs sur la glace pour une équipe/saison donnée. La moyenne (blanche) est la moyenne de tirs de toutes les équipes pour une saison donnée. On peut voir les régions chaudes (en rouge) qui représentent des régions ou plus de but ont été marqués que la moyenne des équipe. En bleu on a l’opposé, soit en-dessous de la moyenne.&lt;/p&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Considérez les Sabres de Buffalo, une équipe qui a connu des difficultés ces dernières années, et comparez-les au Lightning de Tampa Bay, une équipe qui a remporté le Stanley deux années consécutives. Regardez les plans de tir de ces deux équipes des saisons 2018-19, 2019-20 et 2020-21. Discutez des observations que vous pouvez faire. Y a-t-il quelque chose qui pourrait expliquer le succès du Lightning, ou les luttes des Sabres ? À quel point une image est-elle complète selon vous ?
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Dans ces graphes, on peut voir de quel régions les différentes équipes arrivent à marquer leurs buts. Est-ce qu’il s’agit d’une équipe qui amrque beaucoup de buts à proximitée de manière aggresive, qui domine le centre de la glace, ou est-ce plutôt une équipe qui préfère tirer souvent, mais de loin avec des coups du poignet.&lt;/p&gt;
+
+&lt;p&gt;Ceci nous permet de voir l’efficacité des startégies et les différentes faiblesses des équipes.&lt;/p&gt;
+
+&lt;p&gt;Select Season 
+&lt;select id=&quot;season&quot; onchange=&quot;refreshplot()&quot;&gt;
+	&lt;option value=&quot;&quot;&gt;...&lt;/option&gt;
+	&lt;option value=&quot;20162017&quot;&gt;2016-2017&lt;/option&gt;
+	&lt;option value=&quot;20172018&quot;&gt;2017-2018&lt;/option&gt;
+	&lt;option value=&quot;20182019&quot;&gt;2018-2019&lt;/option&gt;
+	&lt;option value=&quot;20192020&quot;&gt;2019-2020&lt;/option&gt;
+	&lt;option value=&quot;20202021&quot;&gt;2020-2021&lt;/option&gt;
+	&lt;option value=&quot;20212022&quot;&gt;2021-2022&lt;/option&gt;
+&lt;/select&gt;&lt;/p&gt;
+
+&lt;p&gt;Select Team 
+&lt;select id=&quot;team&quot; onchange=&quot;refreshplot()&quot;&gt;
+	&lt;option value=&quot;&quot;&gt;..&lt;/option&gt;
+	&lt;option value=&quot;ANA&quot;&gt;Mighty Ducks of Anaheim/Anaheim Ducks&lt;/option&gt;
+	&lt;option value=&quot;ARI&quot;&gt;Arizona Coyotes&lt;/option&gt;
+	&lt;option value=&quot;BOS&quot;&gt;Boston Bruins&lt;/option&gt;
+	&lt;option value=&quot;BUF&quot;&gt;Buffalo Sabres&lt;/option&gt;
+	&lt;option value=&quot;CAR&quot;&gt;Carolina Hurricanes&lt;/option&gt;
+	&lt;option value=&quot;CBJ&quot;&gt;Columbus Blue Jackets&lt;/option&gt;
+	&lt;option value=&quot;CGY&quot;&gt;Calgary Flames&lt;/option&gt;
+	&lt;option value=&quot;CHI&quot;&gt;Chicago Black Hawks/Blackhawks&lt;/option&gt;
+	&lt;option value=&quot;COL&quot;&gt;Colorado Avalanche&lt;/option&gt;
+	&lt;option value=&quot;DAL&quot;&gt;Dallas Stars&lt;/option&gt;
+	&lt;option value=&quot;DET&quot;&gt;Detroit Red Wings&lt;/option&gt;
+	&lt;option value=&quot;EDM&quot;&gt;Edmonton Oilers&lt;/option&gt;
+	&lt;option value=&quot;FLA&quot;&gt;Florida Panthers&lt;/option&gt;
+	&lt;option value=&quot;LAK&quot;&gt;Los Angeles Kings&lt;/option&gt;
+	&lt;option value=&quot;MIN&quot;&gt;Minnesota Wild&lt;/option&gt;
+	&lt;option value=&quot;MTL&quot;&gt;Montreal Canadiens&lt;/option&gt;
+	&lt;option value=&quot;NJD&quot;&gt;New Jersey Devils&lt;/option&gt;
+	&lt;option value=&quot;NSH&quot;&gt;Nashville Predators&lt;/option&gt;
+	&lt;option value=&quot;NYI&quot;&gt;New York Islanders&lt;/option&gt;
+	&lt;option value=&quot;NYR&quot;&gt;New York Rangers&lt;/option&gt;
+	&lt;option value=&quot;OTT&quot;&gt;Ottawa Senators&lt;/option&gt;
+	&lt;option value=&quot;PHI&quot;&gt;Philadelphia Flyers&lt;/option&gt;
+	&lt;option value=&quot;PIT&quot;&gt;Pittsburgh Penguins&lt;/option&gt;
+	&lt;option value=&quot;SJS&quot;&gt;San Jose Sharks&lt;/option&gt;
+	&lt;option value=&quot;STL&quot;&gt;St. Louis Blues&lt;/option&gt;
+	&lt;option value=&quot;TBL&quot;&gt;Tampa Bay Lightning&lt;/option&gt;
+	&lt;option value=&quot;TOR&quot;&gt;Toronto Maple Leafs&lt;/option&gt;
+	&lt;option value=&quot;VAN&quot;&gt;Vancouver Canucks&lt;/option&gt;
+	&lt;option value=&quot;WPG&quot;&gt;Winnipeg Jets&lt;/option&gt;
+	&lt;option value=&quot;WSH&quot;&gt;Washington Capitals&lt;/option&gt;
+&lt;/select&gt;&lt;/p&gt;
+&lt;iframe id=&quot;iframe&quot; src=&quot;/plots/blank.html&quot; style=&quot;height:830px;width:100%; border:dotted 1px #999;&quot; title=&quot;plot&quot;&gt;&lt;/iframe&gt;
+&lt;script&gt;
+	function refreshplot(){
+		let season = document.getElementById(&apos;season&apos;).value;
+		let team   = document.getElementById(&apos;team&apos;).value;
+		let ifrm   = document.getElementById(&apos;iframe&apos;);
+        if((season==&apos;&apos;)||(team==&apos;&apos;)){
+            ifrm.src = &apos;plots/blank.html&apos;;
+        }else{
+        	ifrm.src = &apos;plots/plotly_&apos;+season+&apos;_&apos;+team+&apos;.html&apos;;
+        }
+	}
+&lt;/script&gt;
+
+&lt;hr /&gt;
+
+&lt;!--
+Considérez l’Avalanche du Colorado; jetez un œil à leur carte de tir au cours de la saison 2016-17. Discutez de ce que vous pourriez dire sur l’équipe au cours de cette saison. Regardez maintenant la carte des plans de l’Avalanche du Colorado pour la saison 2020-21 et discutez de ce que vous pourriez conclure de ces différences. Est-ce que ça a du sens? Astuce : regardez le classement.
+--&gt;
+&lt;h3 id=&quot;avalanche-colorado--une-stratégie-gagnante&quot;&gt;Avalanche Colorado : une stratégie gagnante&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Season 2016-2017&lt;/th&gt;
+      &lt;th&gt;season 2020-2021&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;plots/COL_2016.png&quot; alt=&quot;2016-2017&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;plots/COL_2020.png&quot; alt=&quot;2020-2021&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Les avalanches se situaient en dernière place de leur division en 2016-2017 et on fait une remontée fulgurante en 2020-2021 pour se hisser au top de leur classement. On peut voir qu’ils avaient de la difficulté auparavant à s’approcher du gardien et que la majoritée de leurs buts étaient marqués de loin.&lt;/p&gt;
+
+&lt;p&gt;Leur stratégie dans la dernière saison a beaucoup évoluée et ils sont désormais capables de s’approcher du but ce qui leur donne davantage d’occasions de marquer.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;buffalo-sabres-vs-tampa-lighting&quot;&gt;Buffalo Sabres vs. Tampa Lighting&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Year&lt;/th&gt;
+      &lt;th&gt;Buffalo Sabres&lt;/th&gt;
+      &lt;th&gt;Tampa Lighting&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2018-2019&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;plots/BUF_2018.png&quot; alt=&quot;2018&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;plots/TBL_2018.png&quot; alt=&quot;2018&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2019-2020&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;plots/BUF_2019.png&quot; alt=&quot;2019&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;plots/TBL_2019.png&quot; alt=&quot;2019&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2020-2021&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;plots/BUF_2020.png&quot; alt=&quot;2020&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;plots/TBL_2020.png&quot; alt=&quot;2020&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;La comparaison côte-à-côte montre que le Lightning, qui connait beaucoup de succès, priorise des tris proche du centre de la glace et proche du gardien. Ils réussissent donc à déjouer la défence et s’approcher du but, ce qui leur donne un beaucoup plus haut taux de succès.&lt;/p&gt;
+
+&lt;p&gt;Buffalo quand a eux on des tirs beaucoup plus disparates avec un faible taux de succès. Leurs régions à haute densitée de succès sont beaucoup plus disparates.&lt;/p&gt;
+
+&lt;p&gt;Il semble facile d’expliquer la différence de perforamnce selon ces graphiques!&lt;/p&gt;
 </content>
  </entry>
  
  <entry>
-   <title>Visualozations Simples - A Completer</title>
+   <title>Visualisations simples</title>
    <link href="http://localhost:4000/2022/10/18/visu-simple/"/>
    <updated>2022-10-18T00:00:00-04:00</updated>
    <id>http://localhost:4000/2022/10/18/visu-simple</id>
-   <content type="html">&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Produisez un graphique comparant les types de tirs sur toutes les équipes dans une saison de votre choix (i.e. agrégez juste sur tous les tirs). Superposez le nombre de buts sur le nombre de tirs. Quel semble être le type de tir le plus dangereux ? Le type de tir le plus courant? Pourquoi est-ce que vous avez choisi ce type de graphique. Ajoutez cette figure et cette discussion à votre article de blog.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+   <content type="html">&lt;h2 id=&quot;types-de-tir&quot;&gt;Types de tir&lt;/h2&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Quelle est la relation entre la distance à laquelle un tir a été effectué et la chance qu’il s’agisse d’un but ? Produisez un graphique pour chaque saison entre 2018-19 et 2020-21 pour répondre à cette question, et ajoutez-le à votre article de blog avec quelques phrases décrivant votre silhouette. Y a-t-il eu beaucoup de changements au cours des trois dernières saisons? Pourquoi est-ce que vous avez choisi ce type de graphique?
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Dans le respect des consignes, qui exigeaient de superposer le nombre de tirs et le nombre de buts de chaque type, nous avons réalisé un diagramme à barres empilées où chaque barre représente un type de tir. Cependant, puique plusieurs questions ont été posé en même temps, il est évident qu’un graphique par question serait idéal.&lt;/p&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Combinez les informations des sections précédentes pour produire un graphique qui montre le pourcentage de buts (# buts / # tirs) en fonction à la fois de la distance par rapport au filet et de la catégorie de types de tirs (vous pouvez choisir une seule saison de votre choix) brièvement Discutez de vos conclusions ; Par exemple, quels pourraient être les types de tirs les plus dangereux ?
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;figures/q5-1.png&quot; alt=&quot;Histogramme des tirs et buts en fonction du type de tir (saison 2016-2017)&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;On constate que le &lt;em&gt;wrist shot&lt;/em&gt; est le type le plus courant, suivi loin derrière par les &lt;em&gt;slap shots&lt;/em&gt; et les &lt;em&gt;snap shots&lt;/em&gt;. Le diagramme montre que &lt;em&gt;wrist shots&lt;/em&gt; et les &lt;em&gt;snap shots&lt;/em&gt; sont particulièrement redoutables en termes absolut. Par contre les données démontrent que ce ne sont pas les types de tir qui se traduisent par le plus haut taux de succès.&lt;/p&gt;
+
+&lt;p&gt;Une visualisation combinant, par exemple, une barre représentant le nombre de tirs de chaque type accompagné d’une ligne représentant la &lt;em&gt;proportion&lt;/em&gt; de ces tirs résultant en un but aurait été plus parlante, et aurait par exemple révélé que les types de tir les plus redoutables sont &lt;em&gt;deflected&lt;/em&gt; et &lt;em&gt;tip-in&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;distance-de-tir&quot;&gt;Distance de tir&lt;/h2&gt;
+
+&lt;p&gt;Pour cette question, nous avons choisi de présenter des histogrammes, où chaque barre représente une classe de distances et indique la proportion de tirs se traduisant en buts. Initialement, nous avions laissé à la bibliothèque pandas le soin  de délimiter les classes, mais le résultat nuisait à la lisibilité. Si nous avions utilisé des quartiles, nous aurions perdu certaines nuances intéressantes dans les données. Les déciles auraient donné des bornes moins interprétables pour les classes. Au final, nous avons opté pour des classes représentant chacune un intervalle de dix pieds de distance.&lt;/p&gt;
+
+&lt;p&gt;On voit dans l’ensemble que, jusqu’à une distance de 70 pieds, plus un tir est effectué proche de la cible, plus il a de chances de se traduire en but. Ce n’est pas un constat très surprenant, car on peut penser qu’il est plus facile de viser avec précision d’une distance moins grande, et que de plus moins de joueurs ont l’opportunité de s’interposer entre le tireur et le gardien pour tenter d’intercepter la rondelle.&lt;/p&gt;
+
+&lt;p&gt;En regardant les graphiques, on constate cependant deux phénomènes étonnants.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;figures/q5-2-20182019.png&quot; alt=&quot;Histogramme des buts en fonction de la distance (saison 2018-2019)&quot; /&gt;
+&lt;img src=&quot;figures/q5-2-20192020.png&quot; alt=&quot;Histogramme des buts en fonction de la distance (saison 2019-2020)&quot; /&gt;
+&lt;img src=&quot;figures/q5-2-20202021.png&quot; alt=&quot;Histogramme des buts en fonction de la distance (saison 2020-2021)&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;D’une part, au-delà de 70 pieds, les tirs semblent reprendre en efficacité. En effet, de 2018 à 2022, les tirs d’entre 90 et 100 pieds sont en fait plus efficaces que les tirs d’entre 40 et 50 pieds. En 2020-2021, ce sont plutôt les tirs d’entre 80 et 90 pieds qui présentent cette caractéristique. Dans toutes ces années, les tirs de plus de 70 pieds de distance sont plus efficaces en moyenne que ceux de 60 à 70 pieds. La présente visualisation ne permet par contre par de tenir compte de différents facteurs qui pourraient expliquer cela. Par exemple, est-il possible que les attaquants aient une propension plus grande à tirer de loin dans un filet désert, ou encore quand, suite à une échappée, ils ne font pas face à des défenseurs qui pourraient s’interposer? Ces deux facteurs et d’autres sans doute permettraient d’expliquer au moins en partie pourquoi les tirs de loin semblent plus efficaces que ceux de distance moyenne.&lt;/p&gt;
+
+&lt;p&gt;D’autre part, on remarque une différence assez importante au niveau du taux de succès des tirs les plus proches entre la saison 2018-2019 et les saisons subséquentes. Sur la base des donnés à notre disposition, nous ne nous considérons pas en mesure de faire d’hypothèses sur la raison qui explique cette différence.&lt;/p&gt;
+
+&lt;h2 id=&quot;types-et-distance-de-tir&quot;&gt;Types et distance de tir&lt;/h2&gt;
+
+&lt;p&gt;Nous avons utilisé deux types de visualisation pour cette question. Le diagramme en aires est plus facile à lire de façon générale, mais certains &lt;em&gt;insights&lt;/em&gt; n’en ressortent pas aussi bien. Un diagramme tridimensionnel présentant la distance et le type de tir sur chacun des deux axes horizontaux et la proportion de succès sur l’axe vertical est plus difficile à lire, mais fait ressortir certains points intéressants.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;figures/q5-3.png&quot; alt=&quot;Graphie en aires des buts en fonction du type de tir et de la distance (saison 2016-2017)&quot; /&gt;
+&lt;img src=&quot;figures/q5-3-stacked.png&quot; alt=&quot;Graphie en aires des buts en fonction du type de tir et de la distance (saison 2016-2017)&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Encore une fois, afin de répondre aux exigences de l’énoncé, nous avons représenté la proportion de tirs ayant donné lieu à des buts, mais ici une représentation du nombre de tirs et de buts aurait été utile. Par exemple, les deux représentations donnent à penser que le tir de type &lt;em&gt;wrap around&lt;/em&gt; est extrêmement redoutable à grande distance, mais il est permis de penser qu’il s’agit probablement simplement de bruit, d’autant qu’un tir &lt;em&gt;wrap around&lt;/em&gt; à longue distance ne semble pas vraiment avoir de sens.&lt;/p&gt;
+
+&lt;p&gt;Cela dit, on constate que le type de tir le plus efficace dépend grandement de la distance. À courte distance, les tirs les plus efficaces identifiés plus haut sont redoutables, par exemple &lt;em&gt;deflected&lt;/em&gt; et &lt;em&gt;tip in&lt;/em&gt;. Par contre, à plus longue distance, des types de tir qui ne ressortaient pas vraiment initialement semblent les plus efficaces, en particulier le &lt;em&gt;wrist shot&lt;/em&gt; et le &lt;em&gt;backhand&lt;/em&gt;.&lt;/p&gt;
+
 </content>
  </entry>
  
  <entry>
-   <title>Tidy Data</title>
+   <title>Données Propes</title>
    <link href="http://localhost:4000/2022/10/10/tidy-data/"/>
    <updated>2022-10-10T00:00:00-04:00</updated>
    <id>http://localhost:4000/2022/10/10/tidy-data</id>
-   <content type="html">&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Dans votre article de blog, incluez un petit extrait de votre cadre de données final (par exemple, en utilisant head(10)). Vous pouvez simplement inclure une capture d&apos;écran plutôt que de vous battre pour que les tableaux soient soigneusement formatés en HTML/markdown. 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;/images/clean_data.png&quot; alt=&quot;Clean Data&quot; /&gt;&lt;/p&gt;
+   <content type="html">&lt;p&gt;Voici le format final de nos données:
+&lt;img src=&quot;figures/clean_data.png&quot; alt=&quot;Clean Data&quot; /&gt;&lt;/p&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Vous remarquerez que le champ de « force » (c.-à-d. égal, avantage numérique, en désavantage numérique) n&apos;existe que pour les buts, pas pour les tirs. De plus, il n&apos;inclut pas la force réelle des joueurs sur la glace (c&apos;est-à-dire 5 contre 4, ou 5 contre 3, etc.). Discutez de la façon dont vous pourriez ajouter les informations sur la force réelle (c&apos;est-à-dire 5 contre 4, etc.) aux tirs et aux buts, compte tenu des autres types d&apos;événements (au-delà des tirs et des buts) et des fonctionnalités disponibles. Vous n&apos;avez pas besoin de l&apos;implémenter pour ce jalon.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;powerplays&quot;&gt;PowerPlays&lt;/h2&gt;
 &lt;p&gt;Chaque match commence avec le même nombre de joueurs et les joueurs sont enlevés du terrain suite à des pénalités. Il serait donc envisageable de calculer, à l’aide des timestamps et des événements définissants les différents penalités, combien de joueurs il y a sur le terrain pour chaque évenement. Les évenements de types “Penalty” stockent les durées des pénalties (“penaltyMinutes”) permettant de détérminer quand les forces se rééquilibrent.&lt;/p&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;En quelques phrases, discutez d’au moins 3 fonctionnalités supplémentaires que vous pourriez envisager de créer à partir des données disponibles dans cet ensemble de données. Nous ne cherchons pas de réponses particulières, mais si vous avez besoin d’inspiration, un tir ou un but pourrait-il être classé comme un rebond/tir dans le rush (expliquez comment déterminer entre ceux-ci?
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;fonctionnalitées-supplémentaires&quot;&gt;Fonctionnalitées Supplémentaires&lt;/h2&gt;
 &lt;p&gt;En plus des events qui ont été sélectionnés il serait interessant de considérer les ‘Missed Shots’ et ‘Blocked Shots’ pour analyser si elles sont ratées parce qu’elles sont prises à une certaine distance. On pourrait aussi envisager qu’il y ait une correlation entre le nombre de penalties d’une équipe et le nombre de shots pris. Finalement, nous avons choisis de tirer les données sur les joueurs qui ont participé aux tirs afin de déterminer et inclur le taux de reussite.&lt;/p&gt;
 
 </content>
  </entry>
  
  <entry>
-   <title>Debugger - A Completer</title>
+   <title>Debugger</title>
    <link href="http://localhost:4000/2022/10/10/debugger/"/>
    <updated>2022-10-10T00:00:00-04:00</updated>
    <id>http://localhost:4000/2022/10/10/debugger</id>
-   <content type="html">&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Implémentez un ipywidget qui vous permet de parcourir tous les événements, pour chaque match d’une saison donnée, avec la possibilité de changer entre la saison régulière et les séries éliminatoires. Dessinez les coordonnées de l’événement sur l’image de la patinoire fournie, similaire à l’exemple ci-dessous (vous pouvez simplement imprimer les données de l’événement lorsqu’il n’y a pas de coordonnées). Vous pouvez également imprimer toutes les informations que vous jugez utiles, telles que les métadonnées du jeu/boxscores et les résumés d’événements (mais ce n’est pas obligatoire). Prenez une capture d’écran de l’outil et ajoutez-la à l’article de blog, accompagnée du code de l’outil et d’une brève description (1-2 phrases) de ce que fait votre outil. Vous n’avez pas à vous soucier de l’intégration de l’outil dans le blogpost.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+   <content type="html">&lt;p&gt;Nous avons ici un déboggueur qui charge les fichiers .JSON bruts et qui affiche les jeux. Le code permet de charger de manière dynamique les .JSON.&lt;/p&gt;
+
+&lt;p&gt;La classe &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Data&lt;/code&gt; permet de storer des données entre les appels de la fonction et simplifie les opérations.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Python&quot;&gt;class Data:
+    &quot;&quot;&quot;
+    Stateful class to store data and print information
+    &quot;&quot;&quot;
+    year: int = None
+    game_id: int = None
+    play_id: int = None
+    _data: dict = None
+
+    def set(self, year, game_id, play_id):
+        # only load large json data (&amp;gt;100MB) of needed
+        if year != self.year:
+            with open(f&apos;../data/raw/{year}.json&apos;, &apos;r&apos;) as f:
+                self._data = json.load(f)
+
+        self.year = year
+        self.game_id = game_id
+        self.play_id = play_id
+
+    def display(self):
+        display(
+            self._data[self.game_id][&apos;liveData&apos;][&apos;plays&apos;][&apos;allPlays&apos;][self.play_id]
+        )
+
+    def update_plot(self, fig: plt.figure, circle: plt.Circle):
+        coords = self._data[self.game_id][&apos;liveData&apos;][&apos;plays&apos;][&apos;allPlays&apos;][self.play_id][&apos;coordinates&apos;]
+        if coords:
+            circle.set(visible=True, center=(coords[&apos;x&apos;], coords[&apos;y&apos;]))
+        else:
+            circle.set(visible=False)
+        fig.canvas.draw()
+        display.display(plt.gcf())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;La boucle principale &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;plot&lt;/code&gt; permet de faire les bons appels selon ce qui est à démontrer&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Python&quot;&gt;%matplotlib notebook
+fig, ax = plt.subplots()
+
+img_data = plt.imread(&apos;../blog/figures/nhl_rink.png&apos;)
+img = plt.imshow(img_data, extent=[-100,100,-42.5,42.5])
+
+circle = plt.Circle((0,0), 5, color=&apos;r&apos;)
+ax.add_patch(circle)
+
+data = Data()
+
+@interact(
+    year=[(&quot;2016-2017&quot;, 20162017), (&quot;2017-2018&quot;, 20172018)],
+    game_id=(0,1200),
+    play_id=(0,500),
+)
+def plot(year, game_id, play_id):
+    data.set(year, game_id, play_id)
+    data.display()
+    data.update_plot(fig, circle)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;/figures/debugger.png&quot; alt=&quot;debugger&quot; /&gt;&lt;/p&gt;
 </content>
  </entry>
  
  <entry>
-   <title>Download the Data, tutoriel</title>
+   <title>Téléchargement de Données</title>
    <link href="http://localhost:4000/2022/10/09/data-download/"/>
    <updated>2022-10-09T00:00:00-04:00</updated>
    <id>http://localhost:4000/2022/10/09/data-download</id>
-   <content type="html">&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Rédigez un bref tutoriel sur la façon dont votre équipe a téléchargé l’ensemble de données. Imaginez :) que vous cherchiez un guide sur la façon de télécharger les données play-by-play ; votre guide devrait vous faire dire “Parfait - c’est exactement ce que je cherchais!”. Inclure votre fonction/classe et un exemple de comment l’utiliser.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+   <content type="html">&lt;p&gt;Éxécuter le notebook &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;notebooks/data_extraction.ipynb&lt;/code&gt; qui fait les actions suivantes:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;télécharge les données brutes à &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;../data/raw/[YEARYEAR].json&lt;/code&gt; sous format .JSON&lt;/li&gt;
+  &lt;li&gt;nettoie les données et sauvegarde sous &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;../data/tabular/&lt;/code&gt; en format csv.&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;p&gt;Executer le notebook &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;notebooks/data_extraction.ipynb&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Voici le code exécuté par le notebook:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Python&quot;&gt;from ift6758 import NHLLoader, NHCleaner
 
-&lt;p&gt;Telechargera les données brutes à &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;../data/raw/[YEARYEAR].json&lt;/code&gt; sous format JSON
-Telechargera les données nettoyées seront dossier &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;../data/tabular/&lt;/code&gt; sous format csv. Il suffit ensuite de lire le csv local pour les précédures suivantes.
-Ce notebook utilise le package construit dans &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ift6758/data&lt;/code&gt;, contenant les classes suivantes:&lt;/p&gt;
+# Either download from API or extracted data from GDrive
+NHLLoader.from_api(out_dir=&apos;../data/raw/&apos;)
+# OR
+NHLLoader.from_gdrive(out_dir=&quot;../data/raw/&quot;)
 
-&lt;ul&gt;
-  &lt;li&gt;NHLExtractor&lt;/li&gt;
-  &lt;li&gt;NHLLoader&lt;/li&gt;
-  &lt;li&gt;NHLCleaner
-Deux méthodes sont disponibles pour téléchargées à partir de NHLLoader, les données brutes: directement de l’API ou par gdrive. Le contient les 2 methodes, l’une commentée.&lt;/li&gt;
-&lt;/ul&gt;
+for season in [
+    20162017,
+    20172018,
+    ...
+]:
+    df = NHLCleaner.format_season(f&apos;../data/raw/{season}.json&apos;)
+    df.to_csv(f&apos;../data/tabular/{season}.csv&apos;, index=False)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Nous avons ajouté une méthode pour télécharger les données directement de GDrive afin de ne pas spam l’API de la LNH.&lt;/p&gt;
+
+&lt;p&gt;Si vous ne voulez pas télécharger notre code python et l’installer en tant que package, vous pouvez aussi consulter le code source dans notre répertoire GitHub.&lt;/p&gt;
 </content>
  </entry>
  
