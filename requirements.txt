@@ -13,3 +13,4 @@ jupyterlab>=3.0.0
 setuptools
 gdown
 scipy
+comet_ml
