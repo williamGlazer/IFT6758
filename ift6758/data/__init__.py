@@ -14,3 +14,4 @@ https://docs.python.org/3/reference/import.html#regular-packages
 from .extractor import NHLExtractor
 from .loader import NHLLoader
 from .cleaner import NHLCleaner
+from .dataset import Dataset
