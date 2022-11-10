@@ -11,12 +11,12 @@ def mirror_coordinates(df: pd.DataFrame) -> pd.DataFrame:
     if the shot is in a negative x coordinate
     """
     df = df.copy(deep=True)
-    x, y = df['x_coords'], df['y_coords']
+    x, y = df["x_coords"], df["y_coords"]
 
-    is_x_negative = df['x_coords'] < 0
+    is_x_negative = df["x_coords"] < 0
 
-    df.loc[is_x_negative, 'x_coords'] = -x
-    df.loc[is_x_negative, 'y_coords'] = -y
+    df.loc[is_x_negative, "x_coords"] = -x
+    df.loc[is_x_negative, "y_coords"] = -y
 
     return df
 
@@ -28,10 +28,10 @@ def append_shot_distance(df: pd.DataFrame, goal_position=(89, 0)) -> pd.DataFram
     """
     df = df.copy(deep=True)
 
-    x, y = df['x_coords'], df['y_coords']
+    x, y = df["x_coords"], df["y_coords"]
     g_x, g_y = goal_position
 
-    df['shot_distance'] = np.sqrt((x - g_x) ** 2 + (y - g_y) ** 2)
+    df["shot_distance"] = np.sqrt((x - g_x) ** 2 + (y - g_y) ** 2)
     return df
 
 
@@ -43,15 +43,27 @@ def append_shot_angle(df: pd.DataFrame, goal_position=(89, 0)) -> pd.DataFrame:
 
     df = df.copy(deep=True)
 
-    x, y = df['x_coords'], df['y_coords']
+    x, y = df["x_coords"], df["y_coords"]
     g_x, g_y = goal_position
 
-    df['shot_angle'] = np.degrees(np.arctan(abs(x - g_x) / abs(y - g_x)))
+    df["shot_angle"] = np.degrees(np.arctan(abs(x - g_x) / abs(y - g_x)))
 
     return df
 
 
-cols_replace = ['goal', 'empty net', 'strength_even', 'strength_shorthand', 'strength_powerplay']
-def replace_nan_by(df: pd.DataFrame, columns=cols_replace, fill_value=0) -> pd.DataFrame:
+cols_replace = [
+    "goal",
+    "empty net",
+    "strength_even",
+    "strength_shorthand",
+    "strength_powerplay",
+    "shot_distance",
+    "shot_angle",
+]
+
+
+def replace_nan_by_0(
+    df: pd.DataFrame, columns=cols_replace, fill_value=0
+) -> pd.DataFrame:
     df.loc[:, columns] = df[columns].fillna(fill_value)
     return df
