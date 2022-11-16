@@ -1,25 +1,34 @@
 import pandas as pd
 import json
+import os
 
 COLUMNS = [
     "game starttime",
     "game endtime",
     "gameId",
+    "datetime",
     "offense_team_id",
     "offense_team_name",
     "offense_team_tricode",
     "goal",
     "x_coords",
     "y_coords",
+    "period",
+    "period_time",
     "goalie_id",
     "goalie_name",
     "shooter_id",
     "shooter_name",
     "shot type",
+    "prev_type",
+    "prev_x_coords",
+    "prev_y_coords",
+    "prev_datetime",
     "empty net",
     "strength_shorthand",
     "strength_even",
-    "strength_powerplay",
+    "strength_powerplay"
+
 ]
 
 
@@ -64,8 +73,13 @@ class NHLCleaner:
 
     @staticmethod
     def format_season(path: str) -> pd.DataFrame:
-        raw_data = NHLCleaner._pull_json(path)
-
+        raw_data = None
+        try:                                                                           
+            raw_data = NHLCleaner._pull_json(path)                                                
+                                                          
+        except UnicodeDecodeError as error:  # includes JSONDecodeError                          
+            print(f'{path} not JSON')                                                       
+            return None
         selec_data = []
         game_id = 0
         for game in raw_data:
@@ -78,19 +92,22 @@ class NHLCleaner:
 
             event_list = game["liveData"]["plays"]["allPlays"]
 
-            for event in event_list:
+            for eventIdx in range(len(event_list)):
+                event = game["liveData"]["plays"]["allPlays"][eventIdx]
+
                 if (
                     event["result"]["event"] == "Shot"
                     or event["result"]["event"] == "Goal"
                 ):
+                    curr_event = {"game_starttime":game_starttime, "game_endtime": game_endtime, "game_id":game_id}
+                    curr_event["datetime"] = event['about']['dateTime']
 
-                    curr_event = [game_starttime, game_endtime, game_id]
-                    curr_event.append(event["team"]["id"])
-                    curr_event.append(event["team"]["name"])
-                    curr_event.append(event["team"]["triCode"])
-                    curr_event.append(0 if event["result"]["event"] == "Shot" else 1)
-                    curr_event.append(event["coordinates"].get("x", None))
-                    curr_event.append(event["coordinates"].get("y", None))
+                    curr_event["offense_team_id"] = event["team"]["id"]
+                    curr_event["offense_team_name"] = event["team"]["name"]
+                    curr_event["offense_team_tricode"] = event["team"]["triCode"] 
+                    curr_event["goal"] = (0 if event["result"]["event"] == "Shot" else 1)
+                    curr_event["x_coords"] = event["coordinates"].get("x", None)
+                    curr_event["y_coords"] = event["coordinates"].get("y", None)
 
                     for p in event["players"]:
                         if p["playerType"] == "Goalie":
@@ -102,34 +119,67 @@ class NHLCleaner:
                             shooter_id = p["player"]["id"]
                             shooter_name = p["player"]["fullName"]
 
-                    curr_event.append(goalie_id)
-                    curr_event.append(goalie_name)
-                    curr_event.append(shooter_id)
-                    curr_event.append(shooter_name)
 
-                    curr_event.append(event["result"].get("secondaryType", None))
+                    curr_event["period"] = event['about']['period']
+                    curr_event["period_time"] = event['about']['periodTime']
+                    curr_event["goalie_id"] = goalie_id
+                    curr_event["goalie_name"] = goalie_name
+                    curr_event["shooter_id"] = shooter_id
+                    curr_event["shooter_name"] = shooter_name
+
+                    curr_event["shot_type"] = event["result"].get("secondaryType", None)
+    # "prev_x_coords",
+    # "prev_y_coords",
+    # "prev_datetime",
+    # "empty net",
+    # "strength_shorthand",
+    # "strength_even",
+    # "strength_powerplay"
+
+                    ## Info Event Precedent
+                    prev_event = game["liveData"]["plays"]["allPlays"][eventIdx-1]
+                    curr_event["prev_type"] = prev_event["result"]["event"]
+                    curr_event["prev_x_coords"] = prev_event["coordinates"].get("x", None)
+                    curr_event["prev_y_coords"] = prev_event["coordinates"].get("y", None)
+                    curr_event["prev_datetime"] = prev_event['about']['dateTime']
 
                     if event["result"]["event"] == "Goal":
-                        curr_event.append(event["result"].get("emptyNet", None))
+                        curr_event["empty_net"] = event["result"].get("emptyNet", None)
                         ##
                         if event["result"]["strength"].get("code", None) == "EVEN":
-                            curr_event.append(0)
-                            curr_event.append(1)
-                            curr_event.append(0)
+                            curr_event["strength_shorthand"] = 0
+                            curr_event["strength_even"] = 1
+                            curr_event["strength_powerplay"] = 0
                         elif event["result"]["strength"].get("code", None) == "PPG":
-                            curr_event.append(0)
-                            curr_event.append(0)
-                            curr_event.append(1)
+                            curr_event["strength_shorthand"] = 0
+                            curr_event["strength_even"] = 0
+                            curr_event["strength_powerplay"] = 1
                         else:
-                            curr_event.append(1)
-                            curr_event.append(0)
-                            curr_event.append(0)
+                            curr_event["strength_shorthand"] = 1
+                            curr_event["strength_even"] = 0
+                            curr_event["strength_powerplay"] = 0
                     else:
-                        curr_event.append(False)
-                        curr_event.append(None)
+                        curr_event["empty_net"] = False
+                        curr_event["strength_shorthand"] = None
+                        curr_event["strength_even"] = None
+                        curr_event["strength_powerplay"] = None
+
+                    
 
                     selec_data.append(curr_event)
-                    game_id += 1
+            game_id += 1
 
-    
-        return pd.DataFrame(selec_data, columns=COLUMNS)
+        return pd.DataFrame(selec_data)
+        
+    @staticmethod
+    def format_folder(in_dir:str, out_dir:str) -> None:
+        for fn in os.listdir(in_dir):
+            in_path = os.path.join(in_dir, fn)
+            
+            if os.path.isfile(in_path):
+                print(in_dir+fn)
+                df = NHLCleaner.format_season(in_dir+fn)
+
+                if df is None: continue
+                df.to_csv(path_or_buf=os.path.join(out_dir, fn[:-5]+'.csv'))
+
