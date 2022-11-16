@@ -73,11 +73,12 @@ def append_time_lapse_prev(df: pd.DataFrame) -> pd.DataFrame:
     '''
 
     df = df.copy(deep=True)
-    for idx, row in df.iterrows():
-        print(row)
-        prev_dt = datetime.strptime(row['prev_datetime'], '%Y-%m-%dT%H:%M:%SZ')
-        curr_dt = datetime.strptime(row['datetime'], '%Y-%m-%dT%H:%M:%SZ')
-    df['time_lapsed_prev_event'] = curr_dt - prev_dt
+
+    prev_dt = pd.to_datetime(df['prev_datetime'], format='%Y-%m-%dT%H:%M:%SZ')
+    curr_dt = pd.to_datetime(df['datetime'], format='%Y-%m-%dT%H:%M:%SZ')
+
+    df['time_lapsed_prev_event_in_seconds'] = (curr_dt - prev_dt).astype('timedelta64[s]').astype(np.int32)
+    return df
 
 
 ### DISTANCE DEPUIS DERNIER EVENT
@@ -111,27 +112,28 @@ def append_angle_change(df: pd.DataFrame, goal_position=(89, 0)) -> pd.DataFrame
     else appends none
     '''
     df = df.copy(deep=True)
-    for idx, row in df.iterrows():
-        if row['rebound']:
-            x, y = df["prev_x_coords"], df["prev_y_coords"]
-            g_x, g_y = goal_position
 
-            prev_shot_angle = np.degrees(np.arctan(abs(x - g_x) / abs(y - g_y)))
+    is_rebound = df['rebound']
+    g_x, g_y = goal_position
 
-            df.loc[idx,'angle_change'] = df['shot_angle'] - prev_shot_angle
-        else:
-            df.loc[idx,'angle_change'] = None
-    
-    return df 
+    x = df.loc[is_rebound, 'prev_x_coords']
+    y = df.loc[is_rebound, 'prev_y_coords']
+
+    df['angle_change'] = None
+    prev_shot_angle = np.degrees(np.arctan(abs(x - g_x) / abs(y - g_y)))
+
+    df.loc[is_rebound,'angle_change'] = df['shot_angle'] - prev_shot_angle
+
+    return df
 
 
 def append_speed(df: pd.DataFrame) -> pd.DataFrame:
     '''
-    Requires: 'dist_previous_events', 'time_lapsed_prev_event'
+    Requires: 'dist_previous_events', 'time_lapsed_prev_event_in_seconds'
     function that take the dataframe returns a copy with the speed between shot and previous event
     '''
     df = df.copy(deep=True)
-    df['speed'] = df['dist_prev_event'] / df['time_lapsed_prev_event']
+    df['speed'] = df['dist_prev_event'] / df['time_lapsed_prev_event_in_seconds']
     
     return df    
 
