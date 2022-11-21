@@ -124,7 +124,7 @@ class ExperimentPipeline:
         return x_train, y_train, x_test, y_test
 
     def get_test_probas(self):
-        return self.grid.best_estimator_.predict_proba(self.dataset['x_test'])
+        return self.grid.best_estimator_.predict_proba(self.dataset['x_test'])[:, 1]
 
     def _log_to_comet(self):
         # taken from https://www.comet.com/docs/v2/integrations/ml-frameworks/scikit-learn/
