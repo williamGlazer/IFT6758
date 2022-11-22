@@ -11,6 +11,12 @@ from ift6758.pipeline.features import (
     append_shot_angle,
     append_shot_distance,
     replace_nan_by_0,
+    append_game_secs,
+    append_time_lapse_prev,
+    append_rebound,
+    append_dist_prev,
+    append_angle_change,
+    append_speed,
 )
 
 YEARS = [
@@ -27,6 +33,12 @@ DEFAULT_TRANSFORMATIONS = (
     append_shot_angle,
     append_shot_distance,
     replace_nan_by_0,
+    append_game_secs,
+    append_time_lapse_prev,
+    append_dist_prev,
+    append_rebound,
+    append_angle_change,
+    append_speed,
 )
 
 
@@ -37,6 +49,7 @@ class ExperimentPipeline:
         target_column: str,
         pipeline_steps: list,
         tabular_dir: str,
+        metric: str,
         dataset_transformations: list[callable] = DEFAULT_TRANSFORMATIONS,
         parameter_grid=list[dict],
         test_season=20212022,
@@ -45,7 +58,7 @@ class ExperimentPipeline:
         enable_comet=False,
     ):
         if enable_comet:
-            API().get() # throws error if invalid comet api key
+            API().get()  # throws error if invalid comet api key
         self.enable_comet = enable_comet
 
         self.random_state = random_state
@@ -60,9 +73,11 @@ class ExperimentPipeline:
             self.pipeline,
             parameter_grid,
             cv=n_folds_cv,
-            scoring="accuracy",
+            scoring=metric,
             verbose=3,
         )
+        self.dataset = None
+        self.results_ = None
 
     @classmethod
     def get_data(
@@ -73,6 +88,7 @@ class ExperimentPipeline:
         path = Path(tabular_dir)
         assert path.is_dir()
 
+        print(f"fetching dataframes from {path}")
         for season in YEARS:
             df = pd.read_csv(path / f"{season}.csv")
             df["season"] = season
@@ -81,7 +97,9 @@ class ExperimentPipeline:
         df = pd.concat(df_list, ignore_index=True)
 
         for operation in transformations:
+            print(f"applying {operation.__name__}")
             df = operation(df)
+        print('done with preprocessing')
 
         return df
 
@@ -110,7 +128,17 @@ class ExperimentPipeline:
         x_test = df.loc[is_test, self.feature_columns]
         y_test = df.loc[is_test, self.target_column]
 
+        self.dataset = {
+            "x_train": x_train,
+            "y_train": y_train,
+            "x_test": x_test,
+            "y_test": y_test,
+        }
+
         return x_train, y_train, x_test, y_test
+
+    def get_test_probas(self):
+        return self.grid.best_estimator_.predict_proba(self.dataset["x_test"])[:, 1]
 
     def _log_to_comet(self):
         # taken from https://www.comet.com/docs/v2/integrations/ml-frameworks/scikit-learn/
