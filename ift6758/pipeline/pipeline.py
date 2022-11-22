@@ -16,7 +16,7 @@ from ift6758.pipeline.features import (
     append_rebound,
     append_dist_prev,
     append_angle_change,
-    append_speed,
+    append_speed, replace_nan_by_0_2,
 )
 
 YEARS = [
@@ -39,6 +39,7 @@ DEFAULT_TRANSFORMATIONS = (
     append_rebound,
     append_angle_change,
     append_speed,
+    replace_nan_by_0_2,
 )
 
 
