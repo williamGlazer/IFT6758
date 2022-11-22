@@ -119,10 +119,10 @@ def append_angle_change(df: pd.DataFrame, goal_position=(89, 0)) -> pd.DataFrame
     x = df.loc[is_rebound, 'prev_x_coords']
     y = df.loc[is_rebound, 'prev_y_coords']
 
-    df['angle_change'] = None
+    df['angle_change'] = 0
     prev_shot_angle = np.degrees(np.arctan(abs(x - g_x) / abs(y - g_y)))
 
-    df.loc[is_rebound,'angle_change'] = df['shot_angle'] - prev_shot_angle
+    df.loc[is_rebound, 'angle_change'] = df['shot_angle'] - prev_shot_angle
 
     return df
 
@@ -133,7 +133,10 @@ def append_speed(df: pd.DataFrame) -> pd.DataFrame:
     function that take the dataframe returns a copy with the speed between shot and previous event
     '''
     df = df.copy(deep=True)
-    df['speed'] = df['dist_prev_event'] / df['time_lapsed_prev_event_in_seconds']
+    df['speed'] = abs(df['dist_prev_event'] / df['time_lapsed_prev_event_in_seconds'])
+
+    is_inf = df['speed'] == np.inf
+    df.loc[is_inf, 'speed'] = -1
     
     return df    
 
