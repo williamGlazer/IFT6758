@@ -53,7 +53,7 @@ class NHLCleaner:
         pass
 
     @staticmethod
-    def _pull_json(path: str) -> None:
+    def _pull_json(path: str) -> dict:
         with open(path) as f:
             data = json.load(f)
 
@@ -73,16 +73,14 @@ class NHLCleaner:
 
     @staticmethod
     def format_season(path: str) -> pd.DataFrame:
-        raw_data = None
         try:                                                                           
-            raw_data = NHLCleaner._pull_json(path)                                                
-                                                          
+            raw_data = NHLCleaner._pull_json(path)
         except UnicodeDecodeError as error:  # includes JSONDecodeError                          
             print(f'{path} not JSON')                                                       
-            return None
-        selec_data = []
-        game_id = 0
-        for game in raw_data:
+            return pd.DataFrame()
+
+        tabular_data = []
+        for game_id, game in enumerate(raw_data):
 
             if NHLCleaner._is_invalid_game_data(game):
                 continue
@@ -128,13 +126,6 @@ class NHLCleaner:
                     curr_event["shooter_name"] = shooter_name
 
                     curr_event["shot_type"] = event["result"].get("secondaryType", None)
-    # "prev_x_coords",
-    # "prev_y_coords",
-    # "prev_datetime",
-    # "empty net",
-    # "strength_shorthand",
-    # "strength_even",
-    # "strength_powerplay"
 
                     ## Info Event Precedent
                     prev_event = game["liveData"]["plays"]["allPlays"][eventIdx-1]
@@ -164,12 +155,9 @@ class NHLCleaner:
                         curr_event["strength_even"] = None
                         curr_event["strength_powerplay"] = None
 
-                    
+                    tabular_data.append(curr_event)
 
-                    selec_data.append(curr_event)
-            game_id += 1
-
-        return pd.DataFrame(selec_data)
+        return pd.DataFrame(tabular_data)
         
     @staticmethod
     def format_folder(in_dir:str, out_dir:str) -> None:
@@ -183,3 +171,4 @@ class NHLCleaner:
                 if df is None: continue
                 df.to_csv(path_or_buf=os.path.join(out_dir, fn[:-5]+'.csv'))
 
+        print("done!")
