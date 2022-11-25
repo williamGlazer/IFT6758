@@ -69,6 +69,7 @@ class ExperimentPipeline:
         n_folds_cv=5,
         enable_comet=False,
         model_save_directory="../data/models",
+        dataset_partition=None,
     ):
         if enable_comet:
             API().get()  # throws error if invalid comet api key
@@ -91,6 +92,7 @@ class ExperimentPipeline:
             verbose=3,
         )
         self.dataset = None
+        self.dataset_partition = dataset_partition
 
         self.model_save_directory = Path(model_save_directory)
         assert self.model_save_directory.is_dir()
@@ -149,8 +151,12 @@ class ExperimentPipeline:
         pd.DataFrame,
         pd.DataFrame,
     ]:
-        is_valid = df["season"] == self.valid_season
         is_test = df["season"] == self.test_season
+
+        if self.dataset_partition == 'stratify':
+            is_valid = (df.index % 5 == 0) & ~is_test
+        else:
+            is_valid = df['season'] == self.valid_season
 
         x_train = df.loc[~is_test & ~is_valid, self.feature_columns]
         y_train = df.loc[~is_test & ~is_valid, self.target_column]
