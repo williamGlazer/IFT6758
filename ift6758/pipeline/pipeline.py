@@ -224,7 +224,7 @@ class ExperimentPipeline:
         exp.log_figure(figure_name="roc", figure=roc_plot)
         exp.log_figure(figure_name="goal_rate", figure=goal_rate_plot)
         exp.log_figure(figure_name="goal_cumsum", figure=goal_cumsum_plot)
-        exp.log_figure(figure_name="", figure=calibration_plot)
+        exp.log_figure(figure_name="calibration", figure=calibration_plot)
 
         exp.end()
 
