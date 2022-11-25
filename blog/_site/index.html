@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      IFT6758 Blog &middot; A template based on the Lanyon Jekyll theme
+    
+  </title>
+
+  
+  <link rel="canonical" href="http://localhost:4000/">
+  
+
+  <link rel="stylesheet" href="http://localhost:4000/public/css/poole.css">
+  <link rel="stylesheet" href="http://localhost:4000/public/css/syntax.css">
+  <link rel="stylesheet" href="http://localhost:4000/public/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="http://localhost:4000/public/favicon.ico">
+
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:4000/atom.xml">
+
+  
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A reserved <a href="https://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item active" href="http://localhost:4000/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="http://localhost:4000/about/">About</a>
+        
+      
+    
+      
+    
+      
+        
+      
+    
+
+    <span class="sidebar-nav-item">Currently v1.1.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2022. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">IFT6758 Blog</a>
+            <small>A template based on the Lanyon Jekyll theme</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="http://localhost:4000/2022/11/23/do-your-best/">
+        Do Your Best
+      </a>
+    </h1>
+
+    <span class="post-date">23 Nov 2022</span>
+
+    
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="http://localhost:4000/2022/11/22/Mod%C3%A8les-Avanc%C3%A9s/">
+        Modèles Avancés
+      </a>
+    </h1>
+
+    <span class="post-date">22 Nov 2022</span>
+
+    
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="http://localhost:4000/2022/11/21/Ing%C3%A9nierie-des-caract%C3%A9ristiques-2/">
+        Ingénierie Des Caractéristiques 2
+      </a>
+    </h1>
+
+    <span class="post-date">21 Nov 2022</span>
+
+    <h2 id="caracteristiques-créées">Caracteristiques Créées</h2>
+
+<p><a href="https://www.comet.com/williamglazer/hockeyanalysis/7bc807a88fb649d4a28beed00d2b5faf?experiment-tab=assets">Expérience WPG V WSH</a></p>
+
+<h3 id="caracteristiques-issue-de-ingé-i">Caracteristiques issue de Ingé I</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">goal</code>:Est un but (0 ou 1)</li>
+  <li><code class="language-plaintext highlighter-rouge">empty_net</code>: Filet vide (0 ou 1, vous pouvez supposons que les NaN sont 0)</li>
+  <li><code class="language-plaintext highlighter-rouge">game_secs</code>: Secondes de jeu (Game seconds)</li>
+  <li><code class="language-plaintext highlighter-rouge">period</code>: Période de jeu (Game period)</li>
+  <li><code class="language-plaintext highlighter-rouge">x_coords</code>, ‘y_coords’: Coordonnées (x,y, colonnes séparées)</li>
+  <li><code class="language-plaintext highlighter-rouge">shot_distance</code>: Distance de tir (Shot distance)</li>
+  <li><code class="language-plaintext highlighter-rouge">shot_angle</code>: Angle de tir (Shot angle)</li>
+  <li><code class="language-plaintext highlighter-rouge">shot_type</code>: Type de tir (Shot type)</li>
+</ul>
+
+<h3 id="fondée-sur-levenement-précédent">Fondée sur l’evenement précédent:</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">prev_type</code>: Dernier type d’événement (Last event type)</li>
+  <li><code class="language-plaintext highlighter-rouge">prev_x_coords</code>, ‘prev_y_coords’: Coordonnées du dernier événement (x, y, colonnes séparées)</li>
+  <li><code class="language-plaintext highlighter-rouge">prev_datetime</code>: Temps de l’evenement précédent</li>
+  <li><code class="language-plaintext highlighter-rouge">time_lapsed_prev_event_in_seconds</code>: Temps écoulé depuis le dernier événement (secondes)</li>
+  <li><code class="language-plaintext highlighter-rouge">dist_prev_event</code>: Distance depuis le dernier événement (Distance from the last event)</li>
+  <li><code class="language-plaintext highlighter-rouge">rebound</code>: Rebond (bool) : Vrai si le dernier événement était aussi un tir, sinon False</li>
+  <li><code class="language-plaintext highlighter-rouge">angle_change</code>: Changement d’angle de tir: Inclure seulement si le tir est un rebond, sinon 0.</li>
+  <li><code class="language-plaintext highlighter-rouge">speed</code>: Vitesse</li>
+</ul>
+
+<h3 id="autres">Autres</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">season</code>: Saison</li>
+  <li><code class="language-plaintext highlighter-rouge">game_starttime</code>, ‘game_endtime’: Moment de début et de fin du jeu (format datetime: date, heure, minute, secondes)</li>
+  <li><code class="language-plaintext highlighter-rouge">game_id</code>: Code/Id du jeu</li>
+  <li><code class="language-plaintext highlighter-rouge">datetime</code>: Moment de l’évenement</li>
+  <li><code class="language-plaintext highlighter-rouge">offense_team_id</code>, ‘offense_team_name’, ‘offense_team_tricode’: Informations de l’équipe offensive (Id, Nom, Tricode, colonnes séparées)</li>
+  <li><code class="language-plaintext highlighter-rouge">shooter_name</code>: Nom du tireur</li>
+  <li><code class="language-plaintext highlighter-rouge">shooter_id</code>: Id du tireur</li>
+  <li><code class="language-plaintext highlighter-rouge">goalie_name</code>: Nom du gardien</li>
+  <li><code class="language-plaintext highlighter-rouge">goalie_id</code>: Id du gardien</li>
+  <li><code class="language-plaintext highlighter-rouge">period_time</code>: Temps en secondes depuis le debut de la periode</li>
+  <li><code class="language-plaintext highlighter-rouge">strength_shorthand</code>, ‘strength_even’, ‘strength_powerplay’ : One-Hot-Encoding (1 si vrai 0 si faux) de la force en nombre des equipes</li>
+</ul>
+
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="http://localhost:4000/2022/11/20/Mod%C3%A8le-Simples/">
+        Modèle Simples
+      </a>
+    </h1>
+
+    <span class="post-date">20 Nov 2022</span>
+
+    <h2 id="régression-logistique-simple">Régression Logistique Simple</h2>
+
+<p>On remarque que notre classificateur obtiens une bonne performance, soit .90 d’accuracy. Pourtant, lorsqu’on observe les résultats, On remaruqe que 100% des prédictions sont de la classe 0 dû à un d.balancement dans le jeu de donnée d’entraînement.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="../plots/roc_logreg.png" alt="ROC-AUC" /></td>
+      <td><img src="../plots/goal_rate_logreg.png" alt="GOAL RATE" /></td>
+    </tr>
+    <tr>
+      <td><img src="../plots/goal_prop_logreg.png" alt="GOAL PROPORTION" /></td>
+      <td><img src="../plots/calibration_logreg.png" alt="CALIBRATION" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>De ces graphes, on peut déduire que la distance au but est nécessaire afin d’obtenir de bonnes performances. Le modèle qui contiens uniquement l’angle se différencie à peine du <em>baseline</em> aléatoire.
+On peut aussi voir qu’utilise l’angle et la distance est un peu supérieur à la distance seule.
+Pour faire ces conclusions, nous nous basons surtout sur la courbe ROC ainsi que la métrique AUC qui sera utilisée pour nos évaluations de modèles.</p>
+
+<p>La courbe de calibration montre que nos modèles ne prédisent la classe 0 avec une probabilitée très faible.</p>
+
+<p>Les courbes de goal rate montrent que nos modèles avec la distance battent des performances aléatoires.</p>
+
+<p>Voici les liens vers nos expériences Comet.ml:</p>
+<ul>
+  <li><a href="https://www.comet.com/williamglazer/hockeyanalysis/1ba10a235fc54b1cb7c3442ffd1fa732?experiment-tab=params">Distance</a></li>
+  <li><a href="https://www.comet.com/williamglazer/hockeyanalysis/53f79ca0ebac43bb919be4a484e943f2?experiment-tab=params">Angle</a></li>
+  <li><a href="https://www.comet.com/williamglazer/hockeyanalysis/1fa1831453114073a58a32c623ed8fc4?experiment-tab=params">Distance &amp; Angle</a></li>
+</ul>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="http://localhost:4000/2022/11/19/Ing%C3%A9nierie-des-caract%C3%A9ristiques-1/">
+        Ingénierie Des Caractéristiques 1
+      </a>
+    </h1>
+
+    <span class="post-date">19 Nov 2022</span>
+
+    <h2 id="nombre-de-tirs-vs-distance">Nombre de tirs vs. distance</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tir Réussits</th>
+      <th>Tirs Manqués</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="../plots/successful_goals_by_dist.png" alt="nombre de tirs vs distance" /></td>
+      <td><img src="../plots/unsuccessful_goals_by_dist.png" alt="nombre de tirs vs distance" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>On remarque facilement que les tirs réussits sont majoritairement proches, soit dans la zone des 10-20 mètres. Plus la distance augmente, plus les tirs réussis sont rares. Pour ce qui est des tirs manqués, la distribution semble assez uniforme. Par contre on a un pic proche du but puisque nous savons que plusieurs buts sont marqués de près, donc il vaut la pein d’en essayer plus. finalement, la ligne du <em>offside</em> fait en sorte que peu de buts sont tentés au-delà de 70m.</p>
+
+<h2 id="nombre-de-tirs-vs-angle">Nombre de tirs vs. angle</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tir Réussits</th>
+      <th>Tirs Manqués</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="../plots/successful_goals_by_angle.png" alt="nombre de tirs vs distance" /></td>
+      <td><img src="../plots/unsuccessful_goals_by_angle.png" alt="nombre de tirs vs distance" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Nous avons choisis de traiter l’angle comme un angle par rapport à la droite qui passe d’un bout à l’autre du but. Quelqu’un en face dut but a donc un angle de 90 degrés. Il est donc normal de trouver peu de buts avec un angle de 0 selon notre intuition. Il est intéressant de voir que les distributions de but réussits et manqués sont presques identiques hormis un pic de tirs manqués vers les 60 degrés. On peut aussi voir que l’anfgle avec le plut haut taux de succès est d’être directement en face du gardien.</p>
+
+<h2 id="histogramme-2d-entre-la-distance-et-langle">Histogramme 2D entre la distance et l’angle</h2>
+
+<h1 align="center">
+<img src="../plots/distance-vs-angle.png" />
+</h1>
+
+<p>Il est intéressant de constater que la majorité des tirs sont effectués à une distance de 20m du gardien et devant celui-ci. On remarque aussi que plus la distance au but est petite, plus l’angle se doit d’être en face du gardien, sinon on risque de frapper un poteau car le gardien peut bloquer l’entièretée du but.</p>
+
+<h2 id="taux-de-but-à-la-distanceangle">Taux de but à la distance/angle</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Angle</th>
+      <th>Distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="../plots/goal_rate_distance.png" alt="nombre de tirs vs distance" /></td>
+      <td><img src="../plots/goal_rate_angle.png" alt="nombre de tirs vs distance" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>On peut voir que le taux de succès est beaucoup plus grand lorsque l’on s’approche du but. On apercoit aussi une anomalie dans les données du a un <em>outlier</em> qui fait en sorte qu’on obtiens 80% de succès à moins d’un mètre du but.</p>
+
+<p>Pour ce qui est de l’angle, on voit une tendance qui indique que plus l’angle est proche d’être en face du gardien, plus le taux de succès est grand. C’est logique puisque quand on tir de coté, le gardien recouvre la majoritée du but.</p>
+
+<h1 id="but-par-distance-par-rapport-de-fillet-vide-ou-non-vide">But par distance par rapport de fillet vide ou non vide</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>But Vides</th>
+      <th>Buts Avec Gardien</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="../plots/goals_empty_net.png" alt="fillet vide" /></td>
+      <td><img src="../plots/goals_not_empty_net.png" alt="fillet non vide" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>La distribution des buts vides est presque uniforme quoiqu’un peu plus difficle lorsque l’on tire de loin. Les buts avec gardiens quant à eux sont beaucoup plus faciles à réaliser de près.</p>
+
+<p>Notre prétraitement enlève les anomalies dans les données (tirs de la mauvaise zone). Nous ne trouvons donc aucune anomalie dans notre graphe dû à notre connaissance du domaine injectée dans notre pré-traitement.</p>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="http://localhost:4000/page2">Older</a>
+  
+  
+    <span class="pagination-item newer">Newer</span>
+  
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script src='/public/js/script.js'></script>
+  </body>
+</html>

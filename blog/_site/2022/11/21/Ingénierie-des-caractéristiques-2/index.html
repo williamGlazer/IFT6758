@@ -1,0 +1,43 @@
+<h2 id="caracteristiques-créées">Caracteristiques Créées</h2>
+
+<p><a href="https://www.comet.com/williamglazer/hockeyanalysis/7bc807a88fb649d4a28beed00d2b5faf?experiment-tab=assets">Expérience WPG V WSH</a></p>
+
+<h3 id="caracteristiques-issue-de-ingé-i">Caracteristiques issue de Ingé I</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">goal</code>:Est un but (0 ou 1)</li>
+  <li><code class="language-plaintext highlighter-rouge">empty_net</code>: Filet vide (0 ou 1, vous pouvez supposons que les NaN sont 0)</li>
+  <li><code class="language-plaintext highlighter-rouge">game_secs</code>: Secondes de jeu (Game seconds)</li>
+  <li><code class="language-plaintext highlighter-rouge">period</code>: Période de jeu (Game period)</li>
+  <li><code class="language-plaintext highlighter-rouge">x_coords</code>, ‘y_coords’: Coordonnées (x,y, colonnes séparées)</li>
+  <li><code class="language-plaintext highlighter-rouge">shot_distance</code>: Distance de tir (Shot distance)</li>
+  <li><code class="language-plaintext highlighter-rouge">shot_angle</code>: Angle de tir (Shot angle)</li>
+  <li><code class="language-plaintext highlighter-rouge">shot_type</code>: Type de tir (Shot type)</li>
+</ul>
+
+<h3 id="fondée-sur-levenement-précédent">Fondée sur l’evenement précédent:</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">prev_type</code>: Dernier type d’événement (Last event type)</li>
+  <li><code class="language-plaintext highlighter-rouge">prev_x_coords</code>, ‘prev_y_coords’: Coordonnées du dernier événement (x, y, colonnes séparées)</li>
+  <li><code class="language-plaintext highlighter-rouge">prev_datetime</code>: Temps de l’evenement précédent</li>
+  <li><code class="language-plaintext highlighter-rouge">time_lapsed_prev_event_in_seconds</code>: Temps écoulé depuis le dernier événement (secondes)</li>
+  <li><code class="language-plaintext highlighter-rouge">dist_prev_event</code>: Distance depuis le dernier événement (Distance from the last event)</li>
+  <li><code class="language-plaintext highlighter-rouge">rebound</code>: Rebond (bool) : Vrai si le dernier événement était aussi un tir, sinon False</li>
+  <li><code class="language-plaintext highlighter-rouge">angle_change</code>: Changement d’angle de tir: Inclure seulement si le tir est un rebond, sinon 0.</li>
+  <li><code class="language-plaintext highlighter-rouge">speed</code>: Vitesse</li>
+</ul>
+
+<h3 id="autres">Autres</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">season</code>: Saison</li>
+  <li><code class="language-plaintext highlighter-rouge">game_starttime</code>, ‘game_endtime’: Moment de début et de fin du jeu (format datetime: date, heure, minute, secondes)</li>
+  <li><code class="language-plaintext highlighter-rouge">game_id</code>: Code/Id du jeu</li>
+  <li><code class="language-plaintext highlighter-rouge">datetime</code>: Moment de l’évenement</li>
+  <li><code class="language-plaintext highlighter-rouge">offense_team_id</code>, ‘offense_team_name’, ‘offense_team_tricode’: Informations de l’équipe offensive (Id, Nom, Tricode, colonnes séparées)</li>
+  <li><code class="language-plaintext highlighter-rouge">shooter_name</code>: Nom du tireur</li>
+  <li><code class="language-plaintext highlighter-rouge">shooter_id</code>: Id du tireur</li>
+  <li><code class="language-plaintext highlighter-rouge">goalie_name</code>: Nom du gardien</li>
+  <li><code class="language-plaintext highlighter-rouge">goalie_id</code>: Id du gardien</li>
+  <li><code class="language-plaintext highlighter-rouge">period_time</code>: Temps en secondes depuis le debut de la periode</li>
+  <li><code class="language-plaintext highlighter-rouge">strength_shorthand</code>, ‘strength_even’, ‘strength_powerplay’ : One-Hot-Encoding (1 si vrai 0 si faux) de la force en nombre des equipes</li>
+</ul>
+
