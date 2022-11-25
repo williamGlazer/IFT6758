@@ -4,7 +4,7 @@
  <title>IFT6758 Blog</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2022-11-25T17:18:04-05:00</updated>
+ <updated>2022-11-25T17:56:55-05:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Mark Otto</name>
@@ -26,7 +26,148 @@
    <link href="http://localhost:4000/2022/11/22/Mod%C3%A8les-Avanc%C3%A9s/"/>
    <updated>2022-11-22T00:00:00-05:00</updated>
    <id>http://localhost:4000/2022/11/22/Modèles-Avancés</id>
-   <content type="html">
+   <content type="html">&lt;h2 id=&quot;xgboost-sur-angle--distance&quot;&gt;XGBoost sur Angle &amp;amp; Distance&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/00655e4eece64684bc945bbc447ebc72?experiment-tab=chart&amp;amp;showOutliers=true&amp;amp;smoothing=0&amp;amp;transformY=smoothing&amp;amp;xAxis=wall&quot;&gt;Comet.ml&lt;/a&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;XGBoost&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/roc_xgb.png&quot; alt=&quot;ROC-AUC&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/rate_xgb.png&quot; alt=&quot;GOAL RATE&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/prop_xgb.png&quot; alt=&quot;GOAL PROPORTION&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/calibration_xgb.png&quot; alt=&quot;CALIBRATION&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Logistic Reg&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/roc_logreg.png&quot; alt=&quot;ROC-AUC&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/goal_rate_logreg.png&quot; alt=&quot;GOAL RATE&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/goal_prop_logreg.png&quot; alt=&quot;GOAL PROPORTION&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/calibration_logreg.png&quot; alt=&quot;CALIBRATION&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;On peut voir qu’XGBoost obtiens des performances similaire en terme d’AUC. Par contre, nous pouvons facilement voir que les graphiques de calibration montrent qu’XGBoost tends à preédire différentes probabilitées tandisque la régression logistique prédit beaucoup plus souvent des probabilitées faibles. Nous pouvons donc déterminer que le modèle XGBoost est meilleur puisque nous voulons modéliser la probabilitée d’un tir.&lt;/p&gt;
+
+&lt;h2 id=&quot;optimisation-dhyper-paramètres-xgbooost&quot;&gt;Optimisation d’Hyper-paramètres XGBooost&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/1c85a5219e674091b97fcf33ceec5b3d?experiment-tab=chart&amp;amp;showOutliers=true&amp;amp;smoothing=0&amp;amp;transformY=smoothing&amp;amp;xAxis=step&quot;&gt;Comet.ml&lt;/a&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;XGBoost Best Model&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/roc_best_xgb.png&quot; alt=&quot;ROC-AUC&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/rate_best_xgb.png&quot; alt=&quot;GOAL RATE&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/prop_best_xgb.png&quot; alt=&quot;GOAL PROPORTION&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/calibration_best_xgb.png&quot; alt=&quot;CALIBRATION&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;On peut voir que notre modèle est beaucoup plus performant sur la courbe de calibration et parvient à bien prédire la probabilitée de plusieurs événements. Il est tout de même faible autour de .7 de probabilitée. Les autres métriques sont assez similaires.&lt;/p&gt;
+
+&lt;p&gt;Pour nos expériences, nous procédons à un gridsearch naif sur les paramètres les plus populaires. Notre meilleur modèle est enregistré dans Comet. Nous utilisons &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sklearn.Pipeline&lt;/code&gt; et &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sklearn.GridSearchCV&lt;/code&gt; afin d’entrainer et d’évaluer nos modèles.
+Ceci nous permet de faire une validation croisée et d’approximer efficacement nos performances.&lt;/p&gt;
+
+&lt;p&gt;Voici notre grille d’hyper-paramètres:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Parameter&lt;/th&gt;
+      &lt;th&gt;Values&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;learning rate&lt;/td&gt;
+      &lt;td&gt;[0.2, 0.01, 0.001]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;depth&lt;/td&gt;
+      &lt;td&gt;[3, 6, 10]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;n estimators&lt;/td&gt;
+      &lt;td&gt;[50, 75, 100]&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Notre meilleure modèle s’avère être:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+    &apos;xgb_model__eval_metric&apos;: &apos;logloss&apos;,
+    &apos;xgb_model__learning_rate&apos;: 0.2,
+    &apos;xgb_model__max_depth&apos;: 3,
+    &apos;xgb_model__min_child_weight&apos;: 1,
+    &apos;xgb_model__n_estimators&apos;: 100,
+    &apos;xgb_model__objective&apos;: &apos;binary:logistic&apos;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;avec un ROC-AUC de &lt;strong&gt;.737&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Nous pourrions améliorer nos résultats en utilisant des méthodes de recherche telle que vues en classe comme les recherche bayésiennes ou aléatoires.&lt;/p&gt;
+
+&lt;h2 id=&quot;sélection-de-caractéristiques&quot;&gt;Sélection de Caractéristiques&lt;/h2&gt;
+
+&lt;p&gt;Nous utilisons une technbique de filtrage qui utilise notre algorithme XGBoost. Nous entrainons nootre modèle sur toutes les caractéristiques et nous enlevons celle ayant le moins hait score d’importance.&lt;/p&gt;
+
+&lt;p&gt;Le score d’importance de caractéristique est une mesure relative du nombre de fois qu’une caractéristique est utlisée afin de faire un split dans un arbre. Ce n’est pas la métrique la plus élégante, mais c’est assez pour nous suffire.&lt;/p&gt;
+
+&lt;p&gt;Ainsi notre processus est de :&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Entrainer le modèle sur les caractéristiques&lt;/li&gt;
+  &lt;li&gt;Évaluer la performance ROC-AUC&lt;/li&gt;
+  &lt;li&gt;Identifier la caractéristique avec la plus faible importance&lt;/li&gt;
+  &lt;li&gt;Re-faire l’étape 1 sans la caractéristique la moins importante&lt;/li&gt;
+  &lt;li&gt;Arrêter si notre ROC-AUC baisse de plus de 1%&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;De toutes les caractéristiques que nous avions, nous éléminons rebound et gardons celles en gras:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;shot_distance&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;shot_angle&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;dist_prev_event&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;time_lapsed_prev_event_in_seconds&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;game_secs&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;rebound&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Voici le graphique d’importance des caractéristique:
+&lt;img src=&quot;../plots/feat_imp.png&quot; alt=&quot;feature-imp&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Notre score final de ROC-AUC est de &lt;strong&gt;0.75&lt;/strong&gt; ce qui est une augmentation! Notre modèle généralise donc mieux maintenant&lt;/p&gt;
 </content>
  </entry>
  
