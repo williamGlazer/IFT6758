@@ -122,6 +122,11 @@ class ExperimentPipeline:
     def run(self):
         np.random.seed(self.random_state)
 
+        if self.enable_comet:
+            self.experiment = Experiment(
+                project_name="hockeyanalysis",
+            )
+
         df = ExperimentPipeline.get_data(self.tabular_dir, self.transformations)
         x_train, y_train, x_valid, y_valid, x_test, y_test = self._split_train_test(df)
         self.grid.fit(x_train, y_train)
@@ -189,29 +194,25 @@ class ExperimentPipeline:
         return {"accuracy": accuracy, "f1": f1, "roc_auc": roc_auc}
 
     def _log_to_comet(self):
-        exp = Experiment(
-            project_name="hockeyanalysis",
-        )
-
         # parameters
-        exp.log_parameter(
+        self.experiment.log_parameter(
             name="dataset_transformations",
             value=str([fn.__name__ for fn in self.transformations]),
         )
-        exp.log_parameter(name="features", value=str(self.feature_columns))
-        exp.log_parameter(name="parameter_grid", value=str(self.grid.param_grid))
-        exp.log_parameter(name="best_parameters", value=str(self.grid.best_params_))
+        self.experiment.log_parameter(name="features", value=str(self.feature_columns))
+        self.experiment.log_parameter(name="parameter_grid", value=str(self.grid.param_grid))
+        self.experiment.log_parameter(name="best_parameters", value=str(self.grid.best_params_))
 
         # metrics
         metrics = self.get_metrics("valid")
-        exp.log_metric(name="best_model_valid_accuracy", value=metrics["accuracy"])
-        exp.log_metric(name="best_model_valid_f1", value=metrics["f1"])
-        exp.log_metric(name="best_model_valid_roc_auc", value=metrics["roc_auc"])
+        self.experiment.log_metric(name="best_model_valid_accuracy", value=metrics["accuracy"])
+        self.experiment.log_metric(name="best_model_valid_f1", value=metrics["f1"])
+        self.experiment.log_metric(name="best_model_valid_roc_auc", value=metrics["roc_auc"])
 
         # best model
         filepath = self._generate_model_filepath()
         self._save_model(filepath)
-        exp.log_model(name="best_model", file_or_folder=filepath)
+        self.experiment.log_model(name="best_model", file_or_folder=filepath)
 
         # plots
         (
@@ -221,18 +222,16 @@ class ExperimentPipeline:
             calibration_plot,
         ) = self._get_figures()
 
-        exp.log_figure(figure_name="roc", figure=roc_plot)
-        exp.log_figure(figure_name="goal_rate", figure=goal_rate_plot)
-        exp.log_figure(figure_name="goal_cumsum", figure=goal_cumsum_plot)
-        exp.log_figure(figure_name="calibration", figure=calibration_plot)
+        self.experiment.log_figure(figure_name="roc", figure=roc_plot)
+        self.experiment.log_figure(figure_name="goal_rate", figure=goal_rate_plot)
+        self.experiment.log_figure(figure_name="goal_cumsum", figure=goal_cumsum_plot)
+        self.experiment.log_figure(figure_name="calibration", figure=calibration_plot)
 
-        exp.end()
+        self.experiment.end()
 
     def _generate_model_filepath(self) -> str:
         timestamp = str(datetime.now())
-        model_name = str(self.grid.best_estimator_)
-
-        filename = f"{model_name}-{timestamp}.pkl"
+        filename = f"model_created_{timestamp}.pkl"
         return str(self.model_save_directory / filename)
 
     def _save_model(self, path: str):
