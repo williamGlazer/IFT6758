@@ -245,10 +245,10 @@ class ExperimentPipeline:
         with open(path, "wb") as file:
             pickle.dump(best_model, file)
 
-    def _get_figures(self):
-        truth = self.dataset["y_valid"]
-        probas = self.get_probas("valid")
-        preds = self.get_preds("valid")
+    def _get_figures(self, dataset='valid'):
+        truth = self.dataset[f"y_{dataset}"]
+        probas = self.get_probas(dataset)
+        preds = self.get_preds(dataset)
 
         roc_plot = plot_roc([truth], [probas], [preds])
         goal_rate_plot = plot_goal_rate([truth], [probas], [preds])
