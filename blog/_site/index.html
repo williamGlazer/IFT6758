@@ -99,8 +99,8 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="http://localhost:4000/2022/11/23/do-your-best/">
-        Do Your Best
+      <a href="http://localhost:4000/2022/11/23/Do-Your-Best!/">
+        Do Your Best!
       </a>
     </h1>
 
@@ -234,6 +234,8 @@ Ceci nous permet de faire une validation croisée et d’approximer efficacement
 
 <h2 id="sélection-de-caractéristiques">Sélection de Caractéristiques</h2>
 
+<p><a href="https://www.comet.com/williamglazer/hockeyanalysis/857cdd44f44e4f0b8ab33f4f1014683e?experiment-tab=params">Comet.ml</a></p>
+
 <p>Nous utilisons une technbique de filtrage qui utilise notre algorithme XGBoost. Nous entrainons nootre modèle sur toutes les caractéristiques et nous enlevons celle ayant le moins hait score d’importance.</p>
 
 <p>Le score d’importance de caractéristique est une mesure relative du nombre de fois qu’une caractéristique est utlisée afin de faire un split dans un arbre. Ce n’est pas la métrique la plus élégante, mais c’est assez pour nous suffire.</p>
@@ -260,7 +262,24 @@ Ceci nous permet de faire une validation croisée et d’approximer efficacement
 <p>Voici le graphique d’importance des caractéristique:
 <img src="../plots/feat_imp.png" alt="feature-imp" /></p>
 
-<p>Notre score final de ROC-AUC est de <strong>0.75</strong> ce qui est une augmentation! Notre modèle généralise donc mieux maintenant</p>
+<table>
+  <thead>
+    <tr>
+      <th>XGBoost Less Features</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="../plots/roc_xgb_feat.png" alt="ROC-AUC" /></td>
+      <td><img src="../plots/rate_xgb_feat.png" alt="GOAL RATE" /></td>
+    </tr>
+    <tr>
+      <td><img src="../plots/prop_xgb_feat.png" alt="GOAL PROPORTION" /></td>
+      <td><img src="../plots/calibration_xgb_feat.png" alt="CALIBRATION" /></td>
+    </tr>
+  </tbody>
+</table>
 
   </div>
   

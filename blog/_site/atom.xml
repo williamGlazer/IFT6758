@@ -4,7 +4,7 @@
  <title>IFT6758 Blog</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2022-11-25T17:56:55-05:00</updated>
+ <updated>2022-11-25T18:03:29-05:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Mark Otto</name>
@@ -13,10 +13,10 @@
 
  
  <entry>
-   <title>Do Your Best</title>
-   <link href="http://localhost:4000/2022/11/23/do-your-best/"/>
+   <title>Do Your Best!</title>
+   <link href="http://localhost:4000/2022/11/23/Do-Your-Best!/"/>
    <updated>2022-11-23T00:00:00-05:00</updated>
-   <id>http://localhost:4000/2022/11/23/do-your-best</id>
+   <id>http://localhost:4000/2022/11/23/Do-Your-Best!</id>
    <content type="html">
 </content>
  </entry>
@@ -141,6 +141,8 @@ Ceci nous permet de faire une validation croisée et d’approximer efficacement
 
 &lt;h2 id=&quot;sélection-de-caractéristiques&quot;&gt;Sélection de Caractéristiques&lt;/h2&gt;
 
+&lt;p&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/857cdd44f44e4f0b8ab33f4f1014683e?experiment-tab=params&quot;&gt;Comet.ml&lt;/a&gt;&lt;/p&gt;
+
 &lt;p&gt;Nous utilisons une technbique de filtrage qui utilise notre algorithme XGBoost. Nous entrainons nootre modèle sur toutes les caractéristiques et nous enlevons celle ayant le moins hait score d’importance.&lt;/p&gt;
 
 &lt;p&gt;Le score d’importance de caractéristique est une mesure relative du nombre de fois qu’une caractéristique est utlisée afin de faire un split dans un arbre. Ce n’est pas la métrique la plus élégante, mais c’est assez pour nous suffire.&lt;/p&gt;
@@ -167,7 +169,24 @@ Ceci nous permet de faire une validation croisée et d’approximer efficacement
 &lt;p&gt;Voici le graphique d’importance des caractéristique:
 &lt;img src=&quot;../plots/feat_imp.png&quot; alt=&quot;feature-imp&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Notre score final de ROC-AUC est de &lt;strong&gt;0.75&lt;/strong&gt; ce qui est une augmentation! Notre modèle généralise donc mieux maintenant&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;XGBoost Less Features&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/roc_xgb_feat.png&quot; alt=&quot;ROC-AUC&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/rate_xgb_feat.png&quot; alt=&quot;GOAL RATE&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/prop_xgb_feat.png&quot; alt=&quot;GOAL PROPORTION&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/calibration_xgb_feat.png&quot; alt=&quot;CALIBRATION&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 </content>
  </entry>
  
