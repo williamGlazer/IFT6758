@@ -55,6 +55,8 @@ Nous pourrions améliorer nos résultats en utilisant des méthodes de recherche
 
 ## Sélection de Caractéristiques
 
+[Comet.ml](https://www.comet.com/williamglazer/hockeyanalysis/857cdd44f44e4f0b8ab33f4f1014683e?experiment-tab=params)
+
 Nous utilisons une technbique de filtrage qui utilise notre algorithme XGBoost. Nous entrainons nootre modèle sur toutes les caractéristiques et nous enlevons celle ayant le moins hait score d'importance.
 
 Le score d'importance de caractéristique est une mesure relative du nombre de fois qu'une caractéristique est utlisée afin de faire un split dans un arbre. Ce n'est pas la métrique la plus élégante, mais c'est assez pour nous suffire.
@@ -77,4 +79,7 @@ De toutes les caractéristiques que nous avions, nous éléminons rebound et gar
 Voici le graphique d'importance des caractéristique:
 ![feature-imp](../plots/feat_imp.png)
 
-Notre score final de ROC-AUC est de **0.75** ce qui est une augmentation! Notre modèle généralise donc mieux maintenant
+| XGBoost Less Features                          |                                                   |
+|------------------------------------------------|---------------------------------------------------|
+| ![ROC-AUC](../plots/roc_xgb_feat.png)          | ![GOAL RATE](../plots/rate_xgb_feat.png)          |
+| ![GOAL PROPORTION](../plots/prop_xgb_feat.png) | ![CALIBRATION](../plots/calibration_xgb_feat.png) |
