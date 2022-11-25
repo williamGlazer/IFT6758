@@ -80,7 +80,7 @@ class NHLCleaner:
             return pd.DataFrame()
 
         tabular_data = []
-        for game_id, game in enumerate(raw_data):
+        for game in raw_data:
 
             if NHLCleaner._is_invalid_game_data(game):
                 continue
@@ -97,7 +97,7 @@ class NHLCleaner:
                     event["result"]["event"] == "Shot"
                     or event["result"]["event"] == "Goal"
                 ):
-                    curr_event = {"game_starttime":game_starttime, "game_endtime": game_endtime, "game_id":game_id}
+                    curr_event = {"game_starttime":game_starttime, "game_endtime": game_endtime, "game_id": game["gamePk"]}
                     curr_event["datetime"] = event['about']['dateTime']
 
                     curr_event["offense_team_id"] = event["team"]["id"]
@@ -169,6 +169,6 @@ class NHLCleaner:
                 df = NHLCleaner.format_season(in_dir+fn)
 
                 if df is None: continue
-                df.to_csv(path_or_buf=os.path.join(out_dir, fn[:-5]+'.csv'))
+                df.to_csv(path_or_buf=os.path.join(out_dir, fn[:-5]+'.csv'), index=False)
 
         print("done!")
