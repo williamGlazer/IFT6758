@@ -23,7 +23,11 @@ def plot_roc(truth: list[int], probas: list[float], labels: list[str]):
     plt.xlabel("TPR")
     plt.ylabel("FPR")
     plt.title("ROC curve")
+
+    figure = plt.gcf()
     plt.show()
+
+    return figure
 
 
 def plot_goal_rate(truth: list[int], probas: list[float], labels: list[str]):
@@ -45,7 +49,11 @@ def plot_goal_rate(truth: list[int], probas: list[float], labels: list[str]):
     plt.grid()
     plt.legend()
     plt.title("Goal rate by Probability percentile")
+
+    figure = plt.gcf()
     plt.show()
+
+    return figure
 
 
 def plot_goal_cumsum(truth: list[int], probas: list[float], labels: list[str]):
@@ -64,13 +72,22 @@ def plot_goal_cumsum(truth: list[int], probas: list[float], labels: list[str]):
     plt.grid()
     plt.legend()
     plt.title("Proportion of goals by Probability percentile")
+
+    figure = plt.gcf()
     plt.show()
+
+    return figure
 
 
 def plot_calibration(truth: list[int], probas: list[float], labels: list[str]):
     ax = plt.gca()
     for t, p, l in zip(truth, probas, labels):
         CalibrationDisplay.from_predictions(t, p, ax=ax, n_bins=40, label=l)
+
+    figure = plt.gcf()
+    plt.show()
+
+    return figure
 
 
 def plot_all(truth: list[int], probas: list[float], labels: list[str]):
