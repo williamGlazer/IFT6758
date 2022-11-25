@@ -4,7 +4,7 @@
  <title>IFT6758 Blog</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2022-11-25T18:03:29-05:00</updated>
+ <updated>2022-11-25T18:40:22-05:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Mark Otto</name>
@@ -17,7 +17,152 @@
    <link href="http://localhost:4000/2022/11/23/Do-Your-Best!/"/>
    <updated>2022-11-23T00:00:00-05:00</updated>
    <id>http://localhost:4000/2022/11/23/Do-Your-Best!</id>
-   <content type="html">
+   <content type="html">&lt;h2 id=&quot;évaluation-préliminaire&quot;&gt;Évaluation Préliminaire&lt;/h2&gt;
+
+&lt;p&gt;Notre technique d’évaluation s’est résumé en un processus à deux étapes. D’abords, nous essayons plusieurs modèles différents sans ajustage d’hyper-paramètres.&lt;/p&gt;
+
+&lt;p&gt;Ceci nous permet de courvrir un large éventail de technique sans trop perdre de temps sur des solution peu prometteuses.&lt;/p&gt;
+
+&lt;p&gt;Puis nous conservons les modèles un sont dans un écart de 10% de performance ROC-AUC du meilleur modèle &lt;em&gt;out-of-the-box&lt;/em&gt;.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Modèle&lt;/th&gt;
+      &lt;th&gt;Comet link&lt;/th&gt;
+      &lt;th&gt;ROC-AUC&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;KNN&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/5a66b7c2394b4e94b35c9d2a5d94c9f6&quot;&gt;url&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;.606&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Decision Tree&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/6b6ebcf77af64cee9c5454d8d69a6cf2&quot;&gt;url&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;.537&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Random Forest&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/3d6a8e0df0f34461b11f6e165f8bd4ad&quot;&gt;url&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;.692&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;AdaBoost&lt;/strong&gt;    (best)&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/195b09dca5114ec79174f86cd46382de&quot;&gt;url&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;.&lt;strong&gt;728&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Naive Bayes&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/6ab70286a4aa42309edfc241d6e63857&quot;&gt;url&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;.714&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Quadratic Discriminant Analysis&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/3e15ce4a2f8d423bb3fe22df3efd2a5e&quot;&gt;url&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;.714&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;XGBoost&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/857cdd44f44e4f0b8ab33f4f1014683e&quot;&gt;url&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;.720&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Le meilleur modèle semblait de loin être AdaBoost, nous avons donc élu celui-ci comme le seul&lt;/p&gt;
+
+&lt;p&gt;Nos graphiques pour chaque modèle sont enregistré dans Comet.ml sous &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;assets &amp;amp; Artifacts &amp;gt; images &amp;gt; plots.svg&lt;/code&gt;. Voici un extrait du meilleur modèle AdaBoost et du pire modèle de Decision Tree&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;AdaBoost Best Model&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ROC &lt;img src=&quot;https://s3.amazonaws.com/comet.ml/image_3e15ce4a2f8d423bb3fe22df3efd2a5e-dE4JTLPcoZzLi87sJttqj4pEb.svg&quot; alt=&quot;roc&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;Goal Rate &lt;img src=&quot;https://s3.amazonaws.com/comet.ml/image_3e15ce4a2f8d423bb3fe22df3efd2a5e-8vspTwsE5myusII0nzSIbtXv6.svg&quot; alt=&quot;rate&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Goal Cumulative Sum &lt;img src=&quot;https://s3.amazonaws.com/comet.ml/image_3e15ce4a2f8d423bb3fe22df3efd2a5e-HLi2gNqLeVghEDAqcmUJuOXX2.svg&quot; alt=&quot;cumsum&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;Calibration &lt;img src=&quot;https://s3.amazonaws.com/comet.ml/image_3e15ce4a2f8d423bb3fe22df3efd2a5e-CWxEUTep0HUwDRbMCKGblOfvj.svg&quot; alt=&quot;calibration&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Decision Tree Worst Model&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Ces modèle n’a pas de probabilitée&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ROC &lt;img src=&quot;https://s3.amazonaws.com/comet.ml/image_6b6ebcf77af64cee9c5454d8d69a6cf2-jv53HKFXDis9tTF638Er5Yq7n.svg&quot; alt=&quot;roc&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;Calibration &lt;img src=&quot;https://s3.amazonaws.com/comet.ml/image_6b6ebcf77af64cee9c5454d8d69a6cf2-SFcJYgNvort0c4R8UOUMBBLHH.svg&quot; alt=&quot;calibration&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;recherche-dhyper-paramètres&quot;&gt;Recherche d’Hyper Paramètres&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/e653e4860266487eae799e75133fbda7?experiment-tab=chart&amp;amp;showOutliers=true&amp;amp;smoothing=0&amp;amp;transformY=smoothing&amp;amp;xAxis=step&quot;&gt;Comet.ml&lt;/a&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Parameter&lt;/th&gt;
+      &lt;th&gt;Values&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;base learner max depth&lt;/td&gt;
+      &lt;td&gt;[1,2,3]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;base learner&lt;/td&gt;
+      &lt;td&gt;Decision Treee Clf&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;learning rate&lt;/td&gt;
+      &lt;td&gt;[0.1, 1, 10]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;n estimators&lt;/td&gt;
+      &lt;td&gt;[25, 50, 75]&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Notre meilleure modèle s’avère être:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+   &apos;adaboost__base_estimator&apos;: DecisionTreeClassifier(max_depth=3),
+   &apos;adaboost__learning_rate&apos;: 0.1,
+   &apos;adaboost__n_estimators&apos;: 75
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;avec un ROC-AUC de &lt;strong&gt;.739&lt;/strong&gt; ce qui est une faible augmentation de +.002.&lt;/p&gt;
+
+&lt;h2 id=&quot;stratified-sampling&quot;&gt;Stratified Sampling&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.comet.com/williamglazer/hockeyanalysis/e91356fedb86466fad342357d034a4fe&quot;&gt;Comet.ml&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Notre dernière tentative est de stratifier nos exemples d’entrainement à travers les années afin d’avoir une meilleur représentation de nos performances&lt;/p&gt;
+
+&lt;p&gt;Nos performances n’ont pas augmenté&lt;/p&gt;
 </content>
  </entry>
  
