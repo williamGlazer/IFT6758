@@ -70,6 +70,10 @@
         
       
     
+      
+        
+      
+    
 
     <span class="sidebar-nav-item">Currently v1.1.0</span>
   </nav>
@@ -96,6 +100,65 @@
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="http://localhost:4000/2022/11/24/Model-Evaluation/">
+        Model Evaluation
+      </a>
+    </h1>
+
+    <span class="post-date">24 Nov 2022</span>
+
+    <h2 id="évaluer-sur-lensemble-test">Évaluer sur l’ensemble test</h2>
+
+<h3 id="modèles-testés-sur-la-saison-régulière">Modèles testés sur la saison régulière</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Saison Reguliere 2019-2020</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="../plots/test_evaluation/roc_reg.png" alt="ROC-AUC" /></td>
+      <td><img src="../plots/test_evaluation/rate_reg.png" alt="GOAL RATE" /></td>
+    </tr>
+    <tr>
+      <td><img src="../plots/test_evaluation/prop_reg.png" alt="GOAL PROPORTION" /></td>
+      <td><img src="../plots/test_evaluation/positive_reg.png" alt="CALIBRATION" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Par rapport aux résultats obtenus par l’évaluation test on voir des différences variée selon les différents modèle. Surprenamment on voit une croissance légère pour Adaboost et XGBoost de AUC et plus logiquement une decroissance, faible, de AUC pour les modèle de Logistic Regression. XGBoost et Adaboost on une AUC similaire avec XGBoost ayant rattraper le déficite et XGBoost a une plus fort certitude et variation de probabilité. Ces deux modèles performent de façon similaire sur ces données test que sur les données de validation et entre eux, avec un petit avantage du XGBoost. Les modèles de regression logistic géneralisent aussi plutôt bien.</p>
+
+<h3 id="saison-des-playoffs-2019-2020">Saison des playoffs 2019-2020</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Test sur les playoffs 2019-2020</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="../plots/test_evaluation/roc_playoffs.png" alt="ROC-AUC" /></td>
+      <td><img src="../plots/test_evaluation/rate_playoff.png" alt="GOAL RATE" /></td>
+    </tr>
+    <tr>
+      <td><img src="../plots/test_evaluation/prop_playoffs.png" alt="GOAL PROPORTION" /></td>
+      <td><img src="../plots/test_evaluation/positive_playoffs.png" alt="CALIBRATION" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Par rapport aux données obtenus sur la saison régulière on observe une décroissance net de l’AUC pour les modèles plus complexes et une augmentation pour les regression logistiques. De plus, à l’exception du modèle utilisant seulement les angles de tir (qui avait été précédemment remarqué comme étant moins performant) ils suivent tous les 4 une courbe similaire pour le taux de tirs prédits. Finalement, la régression logistique considérant les angles et la distance se distingue comme étant plus fiable que pour d’autres données. On voit donc que les modèles d’Adaboost et XGBoost perfoment un peu moins bien que sur les données des saisons régulières mais généralisent, mais que la regression logistique considérant la distance et l’angle est surprenamment performant dans le cas d’une réel généralisation.</p>
+
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -529,105 +592,6 @@ Pour faire ces conclusions, nous nous basons surtout sur la courbe ROC ainsi que
   <li><a href="https://www.comet.com/williamglazer/hockeyanalysis/53f79ca0ebac43bb919be4a484e943f2?experiment-tab=params">Angle</a></li>
   <li><a href="https://www.comet.com/williamglazer/hockeyanalysis/1fa1831453114073a58a32c623ed8fc4?experiment-tab=params">Distance &amp; Angle</a></li>
 </ul>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="http://localhost:4000/2022/11/19/Ing%C3%A9nierie-des-caract%C3%A9ristiques-1/">
-        Ingénierie Des Caractéristiques 1
-      </a>
-    </h1>
-
-    <span class="post-date">19 Nov 2022</span>
-
-    <h2 id="nombre-de-tirs-vs-distance">Nombre de tirs vs. distance</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Tir Réussits</th>
-      <th>Tirs Manqués</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><img src="../plots/successful_goals_by_dist.png" alt="nombre de tirs vs distance" /></td>
-      <td><img src="../plots/unsuccessful_goals_by_dist.png" alt="nombre de tirs vs distance" /></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>On remarque facilement que les tirs réussits sont majoritairement proches, soit dans la zone des 10-20 mètres. Plus la distance augmente, plus les tirs réussis sont rares. Pour ce qui est des tirs manqués, la distribution semble assez uniforme. Par contre on a un pic proche du but puisque nous savons que plusieurs buts sont marqués de près, donc il vaut la pein d’en essayer plus. finalement, la ligne du <em>offside</em> fait en sorte que peu de buts sont tentés au-delà de 70m.</p>
-
-<h2 id="nombre-de-tirs-vs-angle">Nombre de tirs vs. angle</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Tir Réussits</th>
-      <th>Tirs Manqués</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><img src="../plots/successful_goals_by_angle.png" alt="nombre de tirs vs distance" /></td>
-      <td><img src="../plots/unsuccessful_goals_by_angle.png" alt="nombre de tirs vs distance" /></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Nous avons choisis de traiter l’angle comme un angle par rapport à la droite qui passe d’un bout à l’autre du but. Quelqu’un en face dut but a donc un angle de 90 degrés. Il est donc normal de trouver peu de buts avec un angle de 0 selon notre intuition. Il est intéressant de voir que les distributions de but réussits et manqués sont presques identiques hormis un pic de tirs manqués vers les 60 degrés. On peut aussi voir que l’anfgle avec le plut haut taux de succès est d’être directement en face du gardien.</p>
-
-<h2 id="histogramme-2d-entre-la-distance-et-langle">Histogramme 2D entre la distance et l’angle</h2>
-
-<h1 align="center">
-<img src="../plots/distance-vs-angle.png" />
-</h1>
-
-<p>Il est intéressant de constater que la majorité des tirs sont effectués à une distance de 20m du gardien et devant celui-ci. On remarque aussi que plus la distance au but est petite, plus l’angle se doit d’être en face du gardien, sinon on risque de frapper un poteau car le gardien peut bloquer l’entièretée du but.</p>
-
-<h2 id="taux-de-but-à-la-distanceangle">Taux de but à la distance/angle</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Angle</th>
-      <th>Distance</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><img src="../plots/goal_rate_distance.png" alt="nombre de tirs vs distance" /></td>
-      <td><img src="../plots/goal_rate_angle.png" alt="nombre de tirs vs distance" /></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>On peut voir que le taux de succès est beaucoup plus grand lorsque l’on s’approche du but. On apercoit aussi une anomalie dans les données du a un <em>outlier</em> qui fait en sorte qu’on obtiens 80% de succès à moins d’un mètre du but.</p>
-
-<p>Pour ce qui est de l’angle, on voit une tendance qui indique que plus l’angle est proche d’être en face du gardien, plus le taux de succès est grand. C’est logique puisque quand on tir de coté, le gardien recouvre la majoritée du but.</p>
-
-<h1 id="but-par-distance-par-rapport-de-fillet-vide-ou-non-vide">But par distance par rapport de fillet vide ou non vide</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>But Vides</th>
-      <th>Buts Avec Gardien</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><img src="../plots/goals_empty_net.png" alt="fillet vide" /></td>
-      <td><img src="../plots/goals_not_empty_net.png" alt="fillet non vide" /></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>La distribution des buts vides est presque uniforme quoiqu’un peu plus difficle lorsque l’on tire de loin. Les buts avec gardiens quant à eux sont beaucoup plus faciles à réaliser de près.</p>
-
-<p>Notre prétraitement enlève les anomalies dans les données (tirs de la mauvaise zone). Nous ne trouvons donc aucune anomalie dans notre graphe dû à notre connaissance du domaine injectée dans notre pré-traitement.</p>
 
   </div>
   

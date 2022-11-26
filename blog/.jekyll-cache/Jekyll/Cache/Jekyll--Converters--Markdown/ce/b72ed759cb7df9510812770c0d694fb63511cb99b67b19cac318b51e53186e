@@ -1,0 +1,38 @@
+I"�<h2 id="régression-logistique-simple">Régression Logistique Simple</h2>
+
+<p>On remarque que notre classificateur obtiens une bonne performance, soit .90 d’accuracy. Pourtant, lorsqu’on observe les résultats, On remaruqe que 100% des prédictions sont de la classe 0 dû à un d.balancement dans le jeu de donnée d’entraînement.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="../plots/roc_logreg.png" alt="ROC-AUC" /></td>
+      <td><img src="../plots/goal_rate_logreg.png" alt="GOAL RATE" /></td>
+    </tr>
+    <tr>
+      <td><img src="../plots/goal_prop_logreg.png" alt="GOAL PROPORTION" /></td>
+      <td><img src="../plots/calibration_logreg.png" alt="CALIBRATION" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>De ces graphes, on peut déduire que la distance au but est nécessaire afin d’obtenir de bonnes performances. Le modèle qui contiens uniquement l’angle se différencie à peine du <em>baseline</em> aléatoire.
+On peut aussi voir qu’utilise l’angle et la distance est un peu supérieur à la distance seule.
+Pour faire ces conclusions, nous nous basons surtout sur la courbe ROC ainsi que la métrique AUC qui sera utilisée pour nos évaluations de modèles.</p>
+
+<p>La courbe de calibration montre que nos modèles ne prédisent la classe 0 avec une probabilitée très faible.</p>
+
+<p>Les courbes de goal rate montrent que nos modèles avec la distance battent des performances aléatoires.</p>
+
+<p>Voici les liens vers nos expériences Comet.ml:</p>
+<ul>
+  <li><a href="https://www.comet.com/williamglazer/hockeyanalysis/1ba10a235fc54b1cb7c3442ffd1fa732?experiment-tab=params">Distance</a></li>
+  <li><a href="https://www.comet.com/williamglazer/hockeyanalysis/53f79ca0ebac43bb919be4a484e943f2?experiment-tab=params">Angle</a></li>
+  <li><a href="https://www.comet.com/williamglazer/hockeyanalysis/1fa1831453114073a58a32c623ed8fc4?experiment-tab=params">Distance &amp; Angle</a></li>
+</ul>
+:ET

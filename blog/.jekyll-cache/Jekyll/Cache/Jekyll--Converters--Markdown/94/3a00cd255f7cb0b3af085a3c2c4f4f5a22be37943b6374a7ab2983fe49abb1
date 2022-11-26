@@ -1,0 +1,27 @@
+I"�<p>Éxécuter le notebook <code class="language-plaintext highlighter-rouge">notebooks/data_extraction.ipynb</code> qui fait les actions suivantes:</p>
+<ol>
+  <li>télécharge les données brutes à <code class="language-plaintext highlighter-rouge">../data/raw/[YEARYEAR].json</code> sous format .JSON</li>
+  <li>nettoie les données et sauvegarde sous <code class="language-plaintext highlighter-rouge">../data/tabular/</code> en format csv.</li>
+</ol>
+
+<p>Voici le code exécuté par le notebook:</p>
+<pre><code class="language-Python">from ift6758 import NHLLoader, NHCleaner
+
+# Either download from API or extracted data from GDrive
+NHLLoader.from_api(out_dir='../data/raw/')
+# OR
+NHLLoader.from_gdrive(out_dir="../data/raw/")
+
+for season in [
+    20162017,
+    20172018,
+    ...
+]:
+    df = NHLCleaner.format_season(f'../data/raw/{season}.json')
+    df.to_csv(f'../data/tabular/{season}.csv', index=False)
+</code></pre>
+
+<p>Nous avons ajouté une méthode pour télécharger les données directement de GDrive afin de ne pas spam l’API de la LNH.</p>
+
+<p>Si vous ne voulez pas télécharger notre code python et l’installer en tant que package, vous pouvez aussi consulter le code source dans notre répertoire GitHub.</p>
+:ET

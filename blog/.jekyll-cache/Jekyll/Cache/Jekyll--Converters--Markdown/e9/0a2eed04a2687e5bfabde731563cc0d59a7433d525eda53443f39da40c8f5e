@@ -1,0 +1,10 @@
+I"�<p>Voici le format final de nos données:
+<img src="figures/clean_data.png" alt="Clean Data" /></p>
+
+<h2 id="powerplays">PowerPlays</h2>
+<p>Chaque match commence avec le même nombre de joueurs et les joueurs sont enlevés du terrain suite à des pénalités. Il serait donc envisageable de calculer, à l’aide des timestamps et des événements définissants les différents penalités, combien de joueurs il y a sur le terrain pour chaque évenement. Les évenements de types “Penalty” stockent les durées des pénalties (“penaltyMinutes”) permettant de détérminer quand les forces se rééquilibrent.</p>
+
+<h2 id="fonctionnalitées-supplémentaires">Fonctionnalitées Supplémentaires</h2>
+<p>En plus des events qui ont été sélectionnés il serait interessant de considérer les ‘Missed Shots’ et ‘Blocked Shots’ pour analyser si elles sont ratées parce qu’elles sont prises à une certaine distance. On pourrait aussi envisager qu’il y ait une correlation entre le nombre de penalties d’une équipe et le nombre de shots pris. Finalement, nous avons choisis de tirer les données sur les joueurs qui ont participé aux tirs afin de déterminer et inclur le taux de reussite.</p>
+
+:ET

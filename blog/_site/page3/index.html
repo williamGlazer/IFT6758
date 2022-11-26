@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      IFT6758 Blog &middot; A template based on the Lanyon Jekyll theme
+    
+  </title>
+
+  
+  <link rel="canonical" href="http://localhost:4000/page3/">
+  
+
+  <link rel="stylesheet" href="http://localhost:4000/public/css/poole.css">
+  <link rel="stylesheet" href="http://localhost:4000/public/css/syntax.css">
+  <link rel="stylesheet" href="http://localhost:4000/public/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="http://localhost:4000/public/favicon.ico">
+
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:4000/atom.xml">
+
+  
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A reserved <a href="https://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item active" href="http://localhost:4000/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="http://localhost:4000/about/">About</a>
+        
+      
+    
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+
+    <span class="sidebar-nav-item">Currently v1.1.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2022. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">IFT6758 Blog</a>
+            <small>A template based on the Lanyon Jekyll theme</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="http://localhost:4000/2022/10/09/data-download/">
+        Téléchargement de Données
+      </a>
+    </h1>
+
+    <span class="post-date">09 Oct 2022</span>
+
+    <p>Éxécuter le notebook <code class="language-plaintext highlighter-rouge">notebooks/data_extraction.ipynb</code> qui fait les actions suivantes:</p>
+<ol>
+  <li>télécharge les données brutes à <code class="language-plaintext highlighter-rouge">../data/raw/[YEARYEAR].json</code> sous format .JSON</li>
+  <li>nettoie les données et sauvegarde sous <code class="language-plaintext highlighter-rouge">../data/tabular/</code> en format csv.</li>
+</ol>
+
+<p>Voici le code exécuté par le notebook:</p>
+<pre><code class="language-Python">from ift6758 import NHLLoader, NHCleaner
+
+# Either download from API or extracted data from GDrive
+NHLLoader.from_api(out_dir='../data/raw/')
+# OR
+NHLLoader.from_gdrive(out_dir="../data/raw/")
+
+for season in [
+    20162017,
+    20172018,
+    ...
+]:
+    df = NHLCleaner.format_season(f'../data/raw/{season}.json')
+    df.to_csv(f'../data/tabular/{season}.csv', index=False)
+</code></pre>
+
+<p>Nous avons ajouté une méthode pour télécharger les données directement de GDrive afin de ne pas spam l’API de la LNH.</p>
+
+<p>Si vous ne voulez pas télécharger notre code python et l’installer en tant que package, vous pouvez aussi consulter le code source dans notre répertoire GitHub.</p>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <span class="pagination-item older">Older</span>
+  
+  
+    
+      <a class="pagination-item newer" href="http://localhost:4000/page2">Newer</a>
+    
+  
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script src='/public/js/script.js'></script>
+  </body>
+</html>

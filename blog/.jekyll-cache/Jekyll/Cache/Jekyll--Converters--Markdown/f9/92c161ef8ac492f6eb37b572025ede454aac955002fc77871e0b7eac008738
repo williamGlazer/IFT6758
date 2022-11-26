@@ -1,0 +1,147 @@
+I"�<h2 id="évaluation-préliminaire">Évaluation Préliminaire</h2>
+
+<p>Notre technique d’évaluation s’est résumé en un processus à deux étapes. D’abords, nous essayons plusieurs modèles différents sans ajustage d’hyper-paramètres.</p>
+
+<p>Ceci nous permet de courvrir un large éventail de technique sans trop perdre de temps sur des solution peu prometteuses.</p>
+
+<p>Puis nous conservons les modèles un sont dans un écart de 10% de performance ROC-AUC du meilleur modèle <em>out-of-the-box</em>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modèle</th>
+      <th>Comet link</th>
+      <th>ROC-AUC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>KNN</td>
+      <td><a href="https://www.comet.com/williamglazer/hockeyanalysis/5a66b7c2394b4e94b35c9d2a5d94c9f6">url</a></td>
+      <td>.606</td>
+    </tr>
+    <tr>
+      <td>Decision Tree</td>
+      <td><a href="https://www.comet.com/williamglazer/hockeyanalysis/6b6ebcf77af64cee9c5454d8d69a6cf2">url</a></td>
+      <td>.537</td>
+    </tr>
+    <tr>
+      <td>Random Forest</td>
+      <td><a href="https://www.comet.com/williamglazer/hockeyanalysis/3d6a8e0df0f34461b11f6e165f8bd4ad">url</a></td>
+      <td>.692</td>
+    </tr>
+    <tr>
+      <td><strong>AdaBoost</strong>    (best)</td>
+      <td><a href="https://www.comet.com/williamglazer/hockeyanalysis/195b09dca5114ec79174f86cd46382de">url</a></td>
+      <td>.<strong>728</strong></td>
+    </tr>
+    <tr>
+      <td>Naive Bayes</td>
+      <td><a href="https://www.comet.com/williamglazer/hockeyanalysis/6ab70286a4aa42309edfc241d6e63857">url</a></td>
+      <td>.714</td>
+    </tr>
+    <tr>
+      <td>Quadratic Discriminant Analysis</td>
+      <td><a href="https://www.comet.com/williamglazer/hockeyanalysis/3e15ce4a2f8d423bb3fe22df3efd2a5e">url</a></td>
+      <td>.714</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td><a href="https://www.comet.com/williamglazer/hockeyanalysis/857cdd44f44e4f0b8ab33f4f1014683e">url</a></td>
+      <td>.720</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Le meilleur modèle semblait de loin être AdaBoost, nous avons donc élu celui-ci comme le seul</p>
+
+<p>Nos graphiques pour chaque modèle sont enregistré dans Comet.ml sous <code class="language-plaintext highlighter-rouge">assets &amp; Artifacts &gt; images &gt; plots.svg</code>. Voici un extrait du meilleur modèle AdaBoost et du pire modèle de Decision Tree</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>AdaBoost Best Model</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ROC <img src="https://s3.amazonaws.com/comet.ml/image_3e15ce4a2f8d423bb3fe22df3efd2a5e-dE4JTLPcoZzLi87sJttqj4pEb.svg" alt="roc" /></td>
+      <td>Goal Rate <img src="https://s3.amazonaws.com/comet.ml/image_3e15ce4a2f8d423bb3fe22df3efd2a5e-8vspTwsE5myusII0nzSIbtXv6.svg" alt="rate" /></td>
+    </tr>
+    <tr>
+      <td>Goal Cumulative Sum <img src="https://s3.amazonaws.com/comet.ml/image_3e15ce4a2f8d423bb3fe22df3efd2a5e-HLi2gNqLeVghEDAqcmUJuOXX2.svg" alt="cumsum" /></td>
+      <td>Calibration <img src="https://s3.amazonaws.com/comet.ml/image_3e15ce4a2f8d423bb3fe22df3efd2a5e-CWxEUTep0HUwDRbMCKGblOfvj.svg" alt="calibration" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Decision Tree Worst Model</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ces modèle n’a pas de probabilitée</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>ROC <img src="https://s3.amazonaws.com/comet.ml/image_6b6ebcf77af64cee9c5454d8d69a6cf2-jv53HKFXDis9tTF638Er5Yq7n.svg" alt="roc" /></td>
+      <td>Calibration <img src="https://s3.amazonaws.com/comet.ml/image_6b6ebcf77af64cee9c5454d8d69a6cf2-SFcJYgNvort0c4R8UOUMBBLHH.svg" alt="calibration" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="recherche-dhyper-paramètres">Recherche d’Hyper Paramètres</h2>
+
+<p><a href="https://www.comet.com/williamglazer/hockeyanalysis/e653e4860266487eae799e75133fbda7?experiment-tab=chart&amp;showOutliers=true&amp;smoothing=0&amp;transformY=smoothing&amp;xAxis=step">Comet.ml</a></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>base learner max depth</td>
+      <td>[1,2,3]</td>
+    </tr>
+    <tr>
+      <td>base learner</td>
+      <td>Decision Treee Clf</td>
+    </tr>
+    <tr>
+      <td>learning rate</td>
+      <td>[0.1, 1, 10]</td>
+    </tr>
+    <tr>
+      <td>n estimators</td>
+      <td>[25, 50, 75]</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Notre meilleure modèle s’avère être:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+   'adaboost__base_estimator': DecisionTreeClassifier(max_depth=3),
+   'adaboost__learning_rate': 0.1,
+   'adaboost__n_estimators': 75
+}
+</code></pre></div></div>
+
+<p>avec un ROC-AUC de <strong>.739</strong> ce qui est une faible augmentation de +.002.</p>
+
+<h2 id="stratified-sampling">Stratified Sampling</h2>
+
+<p><a href="https://www.comet.com/williamglazer/hockeyanalysis/e91356fedb86466fad342357d034a4fe">Comet.ml</a></p>
+
+<p>Notre dernière tentative est de stratifier nos exemples d’entrainement à travers les années afin d’avoir une meilleur représentation de nos performances</p>
+
+<p>Nos performances n’ont pas augmenté</p>
+:ET

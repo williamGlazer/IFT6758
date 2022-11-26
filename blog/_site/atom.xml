@@ -4,13 +4,68 @@
  <title>IFT6758 Blog</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2022-11-25T18:40:22-05:00</updated>
+ <updated>2022-11-25T22:29:01-05:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Mark Otto</name>
    <email>markdotto@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Model Evaluation</title>
+   <link href="http://localhost:4000/2022/11/24/Model-Evaluation/"/>
+   <updated>2022-11-24T00:00:00-05:00</updated>
+   <id>http://localhost:4000/2022/11/24/Model-Evaluation</id>
+   <content type="html">&lt;h2 id=&quot;évaluer-sur-lensemble-test&quot;&gt;Évaluer sur l’ensemble test&lt;/h2&gt;
+
+&lt;h3 id=&quot;modèles-testés-sur-la-saison-régulière&quot;&gt;Modèles testés sur la saison régulière&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Saison Reguliere 2019-2020&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/test_evaluation/roc_reg.png&quot; alt=&quot;ROC-AUC&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/test_evaluation/rate_reg.png&quot; alt=&quot;GOAL RATE&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/test_evaluation/prop_reg.png&quot; alt=&quot;GOAL PROPORTION&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/test_evaluation/positive_reg.png&quot; alt=&quot;CALIBRATION&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Par rapport aux résultats obtenus par l’évaluation test on voir des différences variée selon les différents modèle. Surprenamment on voit une croissance légère pour Adaboost et XGBoost de AUC et plus logiquement une decroissance, faible, de AUC pour les modèle de Logistic Regression. XGBoost et Adaboost on une AUC similaire avec XGBoost ayant rattraper le déficite et XGBoost a une plus fort certitude et variation de probabilité. Ces deux modèles performent de façon similaire sur ces données test que sur les données de validation et entre eux, avec un petit avantage du XGBoost. Les modèles de regression logistic géneralisent aussi plutôt bien.&lt;/p&gt;
+
+&lt;h3 id=&quot;saison-des-playoffs-2019-2020&quot;&gt;Saison des playoffs 2019-2020&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Test sur les playoffs 2019-2020&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/test_evaluation/roc_playoffs.png&quot; alt=&quot;ROC-AUC&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/test_evaluation/rate_playoff.png&quot; alt=&quot;GOAL RATE&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/test_evaluation/prop_playoffs.png&quot; alt=&quot;GOAL PROPORTION&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;../plots/test_evaluation/positive_playoffs.png&quot; alt=&quot;CALIBRATION&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Par rapport aux données obtenus sur la saison régulière on observe une décroissance net de l’AUC pour les modèles plus complexes et une augmentation pour les regression logistiques. De plus, à l’exception du modèle utilisant seulement les angles de tir (qui avait été précédemment remarqué comme étant moins performant) ils suivent tous les 4 une courbe similaire pour le taux de tirs prédits. Finalement, la régression logistique considérant les angles et la distance se distingue comme étant plus fiable que pour d’autres données. On voit donc que les modèles d’Adaboost et XGBoost perfoment un peu moins bien que sur les données des saisons régulières mais généralisent, mais que la regression logistique considérant la distance et l’angle est surprenamment performant dans le cas d’une réel généralisation.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Do Your Best!</title>
