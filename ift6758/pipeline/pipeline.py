@@ -99,7 +99,8 @@ class ExperimentPipeline:
 
     @classmethod
     def get_data(
-        cls, tabular_dir: str, transformations: list[callable]
+        cls, tabular_dir: str, transformations: list[callable],
+        reg=True, playoffs=False, years=YEARS
     ) -> pd.DataFrame:
         df_list = []
 
@@ -107,7 +108,7 @@ class ExperimentPipeline:
         assert path.is_dir()
 
         print(f"fetching dataframes from {path}")
-        for season in YEARS:
+        for season in years:
             df = pd.read_csv(path / f"{season}.csv")
             df["season"] = season
             df_list.append(df)
@@ -118,8 +119,15 @@ class ExperimentPipeline:
             print(f"applying {operation.__name__}")
             df = operation(df)
         print("done with preprocessing")
-
-        return df
+        idx = None
+        if reg and playoffs: 
+            idx = df.index[(df['game_id']//10000%10 == 2) + (df['game_id']//10000%10 == 3)]
+        elif reg:
+            idx = df.index[df['game_id']//10000%10 == 2]
+        elif playoffs:
+            idx = df.index[df['game_id']//10000%10 == 3]
+            
+        return df.loc[idx]
 
     def run(self):
         np.random.seed(self.random_state)
