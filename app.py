@@ -10,6 +10,7 @@ gunicorn can be installed via:
 """
 import os
 from pathlib import Path
+import re
 import logging
 from flask import Flask, jsonify, request, abort, session
 from flask_session import Session
@@ -71,11 +72,23 @@ def before_first_request():
 def logs():
     """Reads data from the log file and returns them as the response"""
     
-    # TODO: read the log file specified and return the data
-    raise NotImplementedError("TODO: implement this endpoint")
+    mesgs = []
+    with open(LOG_FILE, 'r') as f:
+        tampon = ""
+        niveau = None
+        app    = None
+        for l in f:
+            m = re.search(r"([A-Z]+):(\w+):(.*)", l)
+            if m:
+                if niveau:
+                    mesgs.append({ "niveau": niveau, "app": app, "message": tampon })
+                niveau = m.group(1)
+                app    = m.group(2)
+                tampon = m.group(3)
+            else:
+                tampon = tampon + l
 
-    response = None
-    return jsonify(response)  # response must be json serializable!
+    return jsonify(mesgs)  # response must be json serializable!
 
 
 @app.route("/download_registry_model", methods=["POST"])
