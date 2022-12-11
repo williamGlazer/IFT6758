@@ -11,7 +11,9 @@ gunicorn can be installed via:
 import os
 from pathlib import Path
 import logging
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, session
+from flask_session import Session
+import redis
 import sklearn
 import pandas as pd
 import joblib
@@ -27,6 +29,11 @@ MODEL_DIR = "ift6758/data/models"
 DEF_MODEL = f"{MODEL_DIR}/default.pkl"
 
 app = Flask(__name__)
+
+SESSION_TYPE = 'redis'
+app.config.from_object(__name__)
+Session(app)
+
 _model = None
 _features = []
 
@@ -37,10 +44,11 @@ def _load_model(model_fn):
     """
 
     with open(model_fn, 'rb') as f:
-        _model = pickle.load(f)
-        _features = _model.feature_names_in_
-        app.logger.info(f"Loaded model from {model_fn}: {_model}")
-        return (_model, _features)
+        model = pickle.load(f)
+        feats = model.feature_names_in_
+        session['model'] = model
+        session['feats'] = feats
+        app.logger.info(f"Loaded model from {model_fn}: {model}")
     
     # ~ f = open(model_fn, 'rb')
     # ~ _model = pickle.load(f)
@@ -118,12 +126,13 @@ def predict():
 
     Returns predictions
     """
-    # Get POST json data
-    model, features = _load_model(DEF_MODEL)
+
+    model = session["model"]
+    feats = session["feats"]
     json = request.get_json()
     app.logger.info(json)
     df = pd.read_json(json)
-    df2 = df[features]
+    df2 = df[feats]
     pred = model.predict_proba(df2)
     for i, c in enumerate(model.classes_):
         f = str(c) + "_proba"

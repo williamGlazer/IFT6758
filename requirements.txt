@@ -17,3 +17,7 @@ comet_ml
 sklearn
 xgboost
 pandas_profiling
+flask
+gunicorn
+flask_session
+redis
