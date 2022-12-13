@@ -16,3 +16,4 @@ scipy
 comet_ml
 sklearn
 xgboost
+pandas_profiling
