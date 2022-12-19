@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  jupiterlabsrv: 
+    container_name: milestn3
+    build: ./
+    ports: 
+      - 8888:8888
+  web:
+    build: .
+    ports:
+      - "5050:5000"
+    volumes:
+      - .:/logs
+#    depends_on:
+#      - redis
+#  redis:
+#    image: redis
+
+#  firefox:
+#    ports:
+#      - "5800:5800"    
+#    volumes:
+#      - ~/Documents/notebooks:/home/notebooks
+#  flasksrv:
