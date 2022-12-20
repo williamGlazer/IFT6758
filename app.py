@@ -1,83 +1,80 @@
-"""
-Pour tester l'application Flask :
-
-  1. jupyter notebook notebooks/test-flask.ipynb &
-  2. redis-server &
-  3. gunicorn --bind 127.0.0.1:5000 app:app
-
-"""
+import shutil
+from logging.config import dictConfig
+from pathlib import Path
 
 from comet_ml import API
-from flask import Flask, jsonify, request, abort, session
-from flask_session import Session
+from flask import Flask, jsonify, request
 import json
-import logging
 import os
 import pandas as pd
-from pathlib import Path
 import pickle
-import re
 
 LOG_FILE = os.environ.get("FLASK_LOG", "flask.log")
+os.environ["COMET_API_KEY"] = "8xjLFJfXYPcxbIanNSTVnZI4O"
 
-# Attention : le modèle par défaut doit être présent dès le démarrage
-MODEL_DIR = "ift6758/data/models"
-DEF_MODEL = f"{MODEL_DIR}/default.pkl"
+MODEL_DIR = "data/models"
+DEFAULT_MODEL = f"{MODEL_DIR}/default.pkl"
 
 COMET_NAMESPACE = "williamglazer"
-COMET_PROJECT   = "hockeyanalysis"
+COMET_PROJECT = "hockeyanalysis"
 
+# sets loggers
+dictConfig(
+    {
+        "version": 1,
+        "formatters": {
+            "default": {
+                "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
+            }
+        },
+        "handlers": {
+            "terminal_logger": {
+                "class": "logging.StreamHandler",
+                "stream": "ext://sys.stdout",
+                "formatter": "default",
+            },
+            "file_logger": {
+                "filename": LOG_FILE,
+                "class": "logging.FileHandler",
+                "mode": "a",
+                "formatter": "default",
+            },
+        },
+        "root": {"level": "INFO", "handlers": ["terminal_logger", "file_logger"]},
+    }
+)
 
 app = Flask(__name__)
-SESSION_TYPE = 'redis'
-app.config.from_object(__name__)
-Session(app)
 
 
-def _load_model(model_fn):
-    """
-    Charge un estimateur sklearn.base.BaseEstimator entraîné et sérialisé avec Pickle.
-    """
+def get_model():
+    """gets default pickled sklearn.base.BaseEstimator model"""
+    if not Path(DEFAULT_MODEL).exists():
+        api = API()
+        experiment = api.get("williamglazer/hockeyanalysis/bfbb2c0cf043468f883b3dd4bf5febd2")
+        model_fn = experiment.get_model_asset_list('best_model')[0]["fileName"]
+        experiment.download_model('best_model', output_path=MODEL_DIR, expand=True)
+        qual_fn = f"{MODEL_DIR}/{model_fn}"
+        set_model(qual_fn)
 
-    with open(model_fn, 'rb') as f:
+    with open(DEFAULT_MODEL, "rb") as f:
+        app.logger.info(f"fetching model from {DEFAULT_MODEL}: ")
         model = pickle.load(f)
-        feats = model.feature_names_in_
-        session['model'] = model
-        session['feats'] = feats
-        app.logger.info(f"Modèle chargé depuis {model_fn}: {model}")
+        app.logger.info(f"successfully loaded")
+    return model
 
 
-@app.before_first_request
-def before_first_request():
-    """
-    Hook to handle any initialization before the first request (e._ load model,
-    setup logging handler, etc.)
-    """
-    logging.basicConfig(filename=LOG_FILE, level=logging.DEBUG)
-    _load_model(DEF_MODEL)
+def set_model(path: str):
+    """sets default model"""
+    app.logger.info(f"setting default model to {path}")
+    return shutil.copyfile(path, DEFAULT_MODEL)
 
 
 @app.route("/logs", methods=["GET"])
 def logs():
-    """Reads data from the log file and returns them as the response""" 
-    mesgs = []
-    with open(LOG_FILE, 'r') as f:
-        # nous allons itérer sur les lignes parce qu'une entrée de log
-        # peut faire plusieurs lignes
-        tampon = ""
-        niveau = None
-        app    = None
-        for l in f:
-            m = re.search(r"([A-Z]+):(\w+):(.*)", l)
-            if m:   # nouvelle entrée qui commence
-                if niveau:
-                    mesgs.append({ "niveau": niveau, "app": app, "message": tampon })
-                niveau = m.group(1)
-                app    = m.group(2)
-                tampon = m.group(3)
-            else:   # entrée qui se continue
-                tampon = tampon + l
-    return jsonify(mesgs)
+    """Reads data from the log file and returns them as the response"""
+    with open(LOG_FILE, "r") as f:
+        return jsonify(f.read())
 
 
 @app.route("/download_registry_model", methods=["POST"])
@@ -94,28 +91,35 @@ def download_registry_model():
             experiment: (required),
             model: (required)
         }
-    
+
     """
+
     json_str = request.get_json()
-    app.logger.info(json_str)
     data = json.loads(json_str)
+
     try:
         api = API()
-        experiment = api.get(f"{data['workspace']}/{data['project']}/{data['experiment']}")
-        model_fn = experiment.get_model_asset_list(data['model'])[0]["fileName"]
+        experiment = api.get(
+            f"{data['workspace']}/{data['project']}/{data['experiment']}"
+        )
+        model_fn = experiment.get_model_asset_list(data["model"])[0]["fileName"]
         qual_fn = f"{MODEL_DIR}/{model_fn}"
+
         if os.path.isfile(qual_fn):
-            app.logger.info("Le modèle existe déjà")
-            _load_model(qual_fn)
+            app.logger.info(f"model {data['model']} already exists")
+            set_model(qual_fn)
+
         else:
-            experiment.download_model(data['model'], output_path=MODEL_DIR, expand=True)
-            app.logger.info("Le modèle a été téléchargé")
-            _load_model(qual_fn)
-        response = "OK"
+            app.logger.info(f"downloading model {data['model']} to {MODEL_DIR}")
+            experiment.download_model(data["model"], output_path=MODEL_DIR, expand=True)
+            app.logger.info(f"done!")
+            set_model(qual_fn)
+
+        return jsonify("OK")
+
     except Exception as e:
-        app.logger.error(f"Impossible de charger le modèle demandé: {e}")
-        response = "Erreur"
-    return jsonify(response)
+        app.logger.error(f"error loading model: {e}")
+        return jsonify("ERROR")
 
 
 @app.route("/predict", methods=["POST"])
@@ -126,15 +130,18 @@ def predict():
     Reçoit un DataFrame Pandas sérialisé en JSON,
     Renvoie le même DataFrame avec une colonne de probabilité par classe
     """
-    model = session.get("model")
-    feats = session.get("feats")
-    json = request.get_json()
-    app.logger.info(json)
-    df = pd.read_json(json)
-    df2 = df[feats] # un DataFrame avec juste les caractéristiques requises par le modèle
-    pred = model.predict_proba(df2)
-    # ajouter une colonne par classe
-    for i, c in enumerate(model.classes_):
-        f = str(c) + "_proba"
-        df[f] = pred[:, i]
-    return jsonify(df.to_json())
+    model = get_model()
+    model_features = model.feature_names_in_
+
+    dict_data = request.get_json()
+    df = pd.DataFrame.from_records(dict_data)
+    df_filtered = df[model_features]
+
+    app.logger.info("predicting goal probabilities")
+
+    pred = model.predict_proba(df_filtered)
+    response = {"goal_proba": pred[:, 1].tolist()}  # get proba of class 1
+
+    app.logger.info("done!")
+
+    return jsonify(response)

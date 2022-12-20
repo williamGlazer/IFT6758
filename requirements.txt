@@ -9,15 +9,12 @@ lxml
 plotly
 ipywidgets
 ipykernel
-jupyterlab>=3.0.0
 setuptools
 gdown
 scipy
 comet_ml
-sklearn
+scikit-learn
 xgboost
 pandas_profiling
 flask
 gunicorn
-flask_session
-redis
