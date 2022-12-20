@@ -3,11 +3,11 @@ FROM python:3.9
 RUN mkdir "project"
 WORKDIR project
 
-COPY requirements.txt .
+COPY ../requirements.txt .
 RUN python3 -m pip install -r requirements.txt
 
 COPY app.py .
-COPY ./ift6758 ./ift6758
+COPY ../ift6758 ./ift6758
 RUN mkdir -p "data/models"
 
 EXPOSE 8080

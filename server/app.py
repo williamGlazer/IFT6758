@@ -9,10 +9,10 @@ import os
 import pandas as pd
 import pickle
 
-LOG_FILE = os.environ.get("FLASK_LOG", "flask.log")
+LOG_FILE = os.environ.get("FLASK_LOG", "../flask.log")
 os.environ["COMET_API_KEY"] = "8xjLFJfXYPcxbIanNSTVnZI4O"
 
-MODEL_DIR = "data/models"
+MODEL_DIR = "../data/models"
 DEFAULT_MODEL = f"{MODEL_DIR}/default.pkl"
 
 COMET_NAMESPACE = "williamglazer"
@@ -51,11 +51,17 @@ def get_model():
     """gets default pickled sklearn.base.BaseEstimator model"""
     if not Path(DEFAULT_MODEL).exists():
         api = API()
-        experiment = api.get("williamglazer/hockeyanalysis/bfbb2c0cf043468f883b3dd4bf5febd2")
-        model_fn = experiment.get_model_asset_list('best_model')[0]["fileName"]
-        experiment.download_model('best_model', output_path=MODEL_DIR, expand=True)
-        qual_fn = f"{MODEL_DIR}/{model_fn}"
-        set_model(qual_fn)
+        api.download_registry_model(
+            'williamglazer',
+            'adaboost-stratified',
+            '1.0.0',
+            output_path=f"{MODEL_DIR}/staging/",
+            expand=True
+        )
+        files = os.listdir(f"{MODEL_DIR}/staging/")
+        assert len(files) == 1
+        shutil.move(f"{MODEL_DIR}/staging/{files[0]}", DEFAULT_MODEL)
+        set_model(f"{MODEL_DIR}/staging/{files[0]}")
 
     with open(DEFAULT_MODEL, "rb") as f:
         app.logger.info(f"fetching model from {DEFAULT_MODEL}: ")
@@ -87,9 +93,8 @@ def download_registry_model():
     Schéma JSON :
         {
             workspace: (required),
-            project: (required),
-            experiment: (required),
-            model: (required)
+            model: (required),
+            version: (required)
         }
 
     """
@@ -97,23 +102,30 @@ def download_registry_model():
     json_str = request.get_json()
     data = json.loads(json_str)
 
-    try:
-        api = API()
-        experiment = api.get(
-            f"{data['workspace']}/{data['project']}/{data['experiment']}"
-        )
-        model_fn = experiment.get_model_asset_list(data["model"])[0]["fileName"]
-        qual_fn = f"{MODEL_DIR}/{model_fn}"
+    model_name = f"{data['workspace']}-{data['model']}-{data['version']}.pkl"
+    model_path = f"{MODEL_DIR}/{model_name}"
 
-        if os.path.isfile(qual_fn):
-            app.logger.info(f"model {data['model']} already exists")
-            set_model(qual_fn)
+    try:
+
+        if os.path.isfile(model_path):
+            app.logger.info(f"model {model_name} already exists")
 
         else:
-            app.logger.info(f"downloading model {data['model']} to {MODEL_DIR}")
-            experiment.download_model(data["model"], output_path=MODEL_DIR, expand=True)
+            app.logger.info(f"downloading model {model_name} to {MODEL_DIR}")
+            api = API()
+            api.download_registry_model(
+                data['workspace'],
+                data['model'],
+                data['version'],
+                output_path=f"{MODEL_DIR}/staging",
+                expand=True
+            )
             app.logger.info(f"done!")
-            set_model(qual_fn)
+
+            files = os.listdir(f"{MODEL_DIR}/staging/")
+            assert len(files) == 1
+            shutil.move(f"{MODEL_DIR}/staging/{files[0]}", f"{MODEL_DIR}/{model_name}")
+            set_model(f"{MODEL_DIR}/{model_name}")
 
         return jsonify("OK")
 
