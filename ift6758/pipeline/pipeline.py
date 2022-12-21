@@ -119,6 +119,7 @@ class ExperimentPipeline:
             print(f"applying {operation.__name__}")
             df = operation(df)
         print("done with preprocessing")
+
         idx = None
         if reg and playoffs: 
             idx = df.index[(df['game_id']//10000%10 == 2) + (df['game_id']//10000%10 == 3)]
