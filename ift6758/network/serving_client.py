@@ -37,7 +37,7 @@ class ServingClient:
         )
         return response.json()
 
-    def download_registry_model(self, workspace: str, model: str, version: str) -> dict:
+    def download_registry_model(self, workspace: str, model: str, version: str) -> int:
         """
         Triggers a "model swap" in the service; the workspace, model, and model version are
         specified and the service looks for this model in the model registry and tries to
@@ -60,4 +60,5 @@ class ServingClient:
             f"{self.base_url}/download_registry_model",
             json=serialized_data
         )
-        return response.json()
+
+        return response

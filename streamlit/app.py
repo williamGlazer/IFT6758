@@ -6,26 +6,31 @@ st.title('Hockey Match Prediction')
 
 # SIDEBAR
 with st.sidebar:
+    st.header('Model Selection')
+
+    # inputs
     workspace = st.text_input('Workspace', value='williamglazer')
     model = st.text_input('Model', value='naive-bayes')
     version = st.text_input('Version', value='1.0.0')
 
     if st.button('load model'):
         # trigger post request to container
-        # animation upon loading
-        # validate if model exists
-        # if not warn
-        # if success display load successfull
-        pass
+        with st.spinner('loading model'):
+            status = ServingClient().download_registry_model(workspace, model, version)
 
+        # display request status
+        if status['success']:
+            st.success('model loaded')
+        else:
+            st.error('model loading failed')
+
+    # display supported models
+    st.text('Current Supported models:\n- naive-bayes\n- gradient-boost\n- adaboost-stratified\n- quadratic-discriminant\n- random-forest')
 
 # BODY
 id = st.text_input('game id', value=2021020001)
 
 if st.button('evaluate game'):
-    # validate if game id is legal
-    # TODO
-
     # fetching data
     with st.spinner('Fetching data from NHL API'):
         data = GameClient.get_game_data(id)
@@ -50,5 +55,5 @@ if st.button('evaluate game'):
                 delta=round(team_xg-team_goals, 2)
             )
 
-    # if yes display results and dataframe
+    # display results and dataframe
     st.dataframe(df)

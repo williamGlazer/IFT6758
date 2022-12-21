@@ -127,11 +127,11 @@ def download_registry_model():
             shutil.move(f"{MODEL_DIR}/staging/{files[0]}", f"{MODEL_DIR}/{model_name}")
             set_model(f"{MODEL_DIR}/{model_name}")
 
-        return jsonify("OK")
+        return jsonify(success=True)
 
     except Exception as e:
         app.logger.error(f"error loading model: {e}")
-        return jsonify("ERROR")
+        return jsonify(success=False)
 
 
 @app.route("/predict", methods=["POST"])
