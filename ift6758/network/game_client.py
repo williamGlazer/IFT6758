@@ -20,7 +20,8 @@ class GameClient:
                 data = f(data)
             return data
 
-        processed = chain(clean, DEFAULT_TRANSFORMATIONS)
+        df = pd.DataFrame(clean)
+        processed = chain(df, DEFAULT_TRANSFORMATIONS)
 
         return processed
 
