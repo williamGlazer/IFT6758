@@ -1,4 +1,6 @@
+import pandas as pd
 import streamlit as st
+from ift6758.network import GameClient, ServingClient
 
 st.title('Hockey Match Prediction')
 
@@ -18,12 +20,35 @@ with st.sidebar:
 
 
 # BODY
-id = st.text_input('game id')
+id = st.text_input('game id', value=2021020001)
 
 if st.button('evaluate game'):
-    # trigger post request to container
-    # animation upon loading
     # validate if game id is legal
-    # if not warn
+    # TODO
+
+    # fetching data
+    with st.spinner('Fetching data from NHL API'):
+        data = GameClient.get_game_data(id)
+
+    # post request to container
+    with st.spinner('Predicting data from models'):
+        result = ServingClient().predict(data)
+
+    df = pd.concat([data, result], axis=1)
+    col_1, col_2 = st.columns(2)
+
+    # display expected goals
+    team_1, team_2 = df.offense_team_name.unique()
+    for team, col in [(team_1, col_1), (team_2, col_2)]:
+        with col:
+            team_plays = df[df.offense_team_name == team]
+            team_xg = team_plays.goal_proba.sum()
+            team_goals = team_plays.goal.sum()
+            st.metric(
+                f'{team} (Expected Goals / Truth)',
+                f'{round(team_xg, 2)} / {team_goals}',
+                delta=round(team_xg-team_goals, 2)
+            )
+
     # if yes display results and dataframe
-    pass
+    st.dataframe(df)
