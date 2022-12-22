@@ -75,6 +75,38 @@ def set_model(path: str):
     app.logger.info(f"setting default model to {path}")
     return shutil.copyfile(path, DEFAULT_MODEL)
 
+@app.route('/')
+def hello():
+    html  = "<!doctype html><html><head>\n"
+    html += "<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'>\n"
+    html += "<script>\n"
+    html += "  var form = document.getElementById('myForm');\n"
+    html += "  form.onsubmit = function(event){\n"
+    html += "    var xhr = new XMLHttpRequest();\n"
+    html += "    xhr.open('POST','/download_registry_model')\n"
+    html += "    xhr.setRequestHeader(\"Content-Type\", \"application/json\");\n"
+    html += "    xhr.send(JSON.stringify($('#myForm').serializeArray()));\n"
+    html += "    xhr.onreadystatechange = function() {\n"
+    html += "        if (xhr.readyState == XMLHttpRequest.DONE) {\n"
+    html += "            form.reset(); \n"
+    html += "        }\n"
+    html += "    }\n"
+    html += "    return false; \n"
+    html += "  }\n"
+    html += "</script>"
+    html += "</head><body>\n"
+    html += "<h1>Bienvenue web-srv en localhost:8080</h1>\n"
+    html += "<div> workspace -- model -- version </div>\n"
+    html += "<form action='#' method='post' id='myForm' >\n"
+    html += "  <input type='text' name='workspace' value='williamglazer' />\n"
+    html += "  <input type='text' name='model'     value='best_model' />\n"
+    html += "  <input type='text' name='version'   value='' />\n"
+    html += "  <input type='submit' value='submit'  />\n"
+    html += "</form>\n"
+    html += "<br><a href='/logs' > voir logs </a><br>\n"
+    html += "</body></html>\n"
+
+    return html
 
 @app.route("/logs", methods=["GET"])
 def logs():
@@ -100,6 +132,7 @@ def download_registry_model():
     """
 
     json_str = request.get_json()
+    json_srt = json.dumps(json_str)
     data = json.loads(json_str)
 
     model_name = f"{data['workspace']}-{data['model']}-{data['version']}.pkl"
