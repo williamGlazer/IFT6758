@@ -17,4 +17,6 @@ scikit-learn
 xgboost
 pandas_profiling
 flask
+redis
+Flask-Session
 gunicorn
