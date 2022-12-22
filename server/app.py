@@ -132,7 +132,6 @@ def download_registry_model():
     """
 
     json_str = request.get_json()
-    json_srt = json.dumps(json_str)
     data = json.loads(json_str)
 
     model_name = f"{data['workspace']}-{data['model']}-{data['version']}.pkl"
