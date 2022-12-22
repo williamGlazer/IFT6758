@@ -1,3 +1,4 @@
 #!/bin/bash
 
-docker build -t milestn3 .
+docker build --tag nhlserver --file Dockerfile.serving .
+docker build --tag nhlweb --file Dockerfile.streamlit .

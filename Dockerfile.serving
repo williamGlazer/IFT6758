@@ -6,8 +6,10 @@ WORKDIR project
 COPY requirements.txt .
 RUN python3 -m pip install -r requirements.txt
 
-COPY server/app.py .
 RUN mkdir -p "data/models/staging"
+
+COPY server/ server/
+WORKDIR server
 
 EXPOSE 8080
 

@@ -1,4 +1,5 @@
 import shutil
+import warnings
 from logging.config import dictConfig
 from pathlib import Path
 
@@ -46,6 +47,9 @@ dictConfig(
 
 app = Flask(__name__)
 
+# suppress sklearn UserWarning when de-pickling adaboost
+warnings.filterwarnings('ignore', category=UserWarning)
+
 
 def get_model():
     """gets default pickled sklearn.base.BaseEstimator model"""
@@ -53,20 +57,21 @@ def get_model():
         api = API()
         api.download_registry_model(
             'williamglazer',
-            'adaboost-stratified',
+            'naive-bayes',
             '1.0.0',
             output_path=f"{MODEL_DIR}/staging/",
             expand=True
         )
         files = os.listdir(f"{MODEL_DIR}/staging/")
         assert len(files) == 1
-        shutil.move(f"{MODEL_DIR}/staging/{files[0]}", DEFAULT_MODEL)
-        set_model(f"{MODEL_DIR}/staging/{files[0]}")
+        shutil.move(f"{MODEL_DIR}/staging/{files[0]}", MODEL_DIR+'/williamglazer-naive-bayes-1.0.0.pkl')
+        set_model(MODEL_DIR+'/williamglazer-naive-bayes-1.0.0.pkl')
 
     with open(DEFAULT_MODEL, "rb") as f:
         app.logger.info(f"fetching model from {DEFAULT_MODEL}: ")
         model = pickle.load(f)
         app.logger.info(f"successfully loaded")
+
     return model
 
 
@@ -144,7 +149,7 @@ def download_registry_model():
             set_model(f"{MODEL_DIR}/{model_name}")
 
         else:
-            app.logger.info(f"downloading model {model_name} to {MODEL_DIR}")
+            app.logger.info(f"downloading model {model_name} to {MODEL_DIR}/staging")
             api = API()
             api.download_registry_model(
                 data['workspace'],

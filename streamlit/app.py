@@ -4,6 +4,8 @@ from ift6758.network import GameClient, ServingClient
 
 st.title('Hockey Match Prediction')
 
+serving_client = ServingClient(ip="server")
+
 # SIDEBAR
 with st.sidebar:
     st.header('Model Selection')
@@ -16,7 +18,7 @@ with st.sidebar:
     if st.button('load model'):
         # trigger post request to container
         with st.spinner('loading model'):
-            status = ServingClient().download_registry_model(workspace, model, version)
+            status = serving_client.download_registry_model(workspace, model, version)
 
         # display request status
         if status['success']:
@@ -37,7 +39,7 @@ if st.button('evaluate game'):
 
     # post request to container
     with st.spinner('Predicting data from models'):
-        result = ServingClient().predict(data)
+        result = serving_client.predict(data)
 
     df = pd.concat([data, result], axis=1)
     col_1, col_2 = st.columns(2)
