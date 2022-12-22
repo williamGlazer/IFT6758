@@ -61,4 +61,4 @@ class ServingClient:
             json=serialized_data
         )
 
-        return response
+        return response.json()

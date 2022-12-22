@@ -109,6 +109,7 @@ def download_registry_model():
 
         if os.path.isfile(model_path):
             app.logger.info(f"model {model_name} already exists")
+            set_model(f"{MODEL_DIR}/{model_name}")
 
         else:
             app.logger.info(f"downloading model {model_name} to {MODEL_DIR}")

@@ -6,8 +6,7 @@ WORKDIR project
 COPY requirements.txt .
 RUN python3 -m pip install -r requirements.txt
 
-COPY app.py .
-COPY ./ift6758 ./ift6758
+COPY server/app.py .
 RUN mkdir -p "data/models/staging"
 
 EXPOSE 8080

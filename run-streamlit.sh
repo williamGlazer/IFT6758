@@ -1,3 +1,4 @@
 #!/bin/bash
 
-streamlit run app.py
+python setup.py install
+streamlit run streamlit/app.py
