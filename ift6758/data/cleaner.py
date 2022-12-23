@@ -1,3 +1,5 @@
+import itertools
+
 import pandas as pd
 import json
 import os
@@ -79,85 +81,91 @@ class NHLCleaner:
             print(f'{path} not JSON')                                                       
             return pd.DataFrame()
 
-        tabular_data = []
-        for game in raw_data:
+        nested_tabular_data: list[list[dict]] = [
+            NHLCleaner.format_game(game)
+            for game in raw_data
+            if not NHLCleaner._is_invalid_game_data(game)
+        ]
 
-            if NHLCleaner._is_invalid_game_data(game):
-                continue
-
-            game_endtime = game["gameData"]["datetime"]["endDateTime"]
-            game_starttime = game["gameData"]["datetime"]["dateTime"]
-
-            event_list = game["liveData"]["plays"]["allPlays"]
-
-            for eventIdx in range(len(event_list)):
-                event = game["liveData"]["plays"]["allPlays"][eventIdx]
-
-                if (
-                    event["result"]["event"] == "Shot"
-                    or event["result"]["event"] == "Goal"
-                ):
-                    curr_event = {"game_starttime":game_starttime, "game_endtime": game_endtime, "game_id": game["gamePk"]}
-                    curr_event["datetime"] = event['about']['dateTime']
-
-                    curr_event["offense_team_id"] = event["team"]["id"]
-                    curr_event["offense_team_name"] = event["team"]["name"]
-                    curr_event["offense_team_tricode"] = event["team"]["triCode"] 
-                    curr_event["goal"] = (0 if event["result"]["event"] == "Shot" else 1)
-                    curr_event["x_coords"] = event["coordinates"].get("x", None)
-                    curr_event["y_coords"] = event["coordinates"].get("y", None)
-
-                    for p in event["players"]:
-                        if p["playerType"] == "Goalie":
-                            goalie_id = p["player"]["id"]
-                            goalie_name = p["player"]["fullName"]
-                        elif (
-                            p["playerType"] == "Shooter" or p["playerType"] == "Scorer"
-                        ):
-                            shooter_id = p["player"]["id"]
-                            shooter_name = p["player"]["fullName"]
-
-
-                    curr_event["period"] = event['about']['period']
-                    curr_event["period_time"] = event['about']['periodTime']
-                    curr_event["goalie_id"] = goalie_id
-                    curr_event["goalie_name"] = goalie_name
-                    curr_event["shooter_id"] = shooter_id
-                    curr_event["shooter_name"] = shooter_name
-
-                    curr_event["shot_type"] = event["result"].get("secondaryType", None)
-
-                    ## Info Event Precedent
-                    prev_event = game["liveData"]["plays"]["allPlays"][eventIdx-1]
-                    curr_event["prev_type"] = prev_event["result"]["event"]
-                    curr_event["prev_x_coords"] = prev_event["coordinates"].get("x", None)
-                    curr_event["prev_y_coords"] = prev_event["coordinates"].get("y", None)
-                    curr_event["prev_datetime"] = prev_event['about']['dateTime']
-
-                    if event["result"]["event"] == "Goal":
-                        curr_event["empty_net"] = event["result"].get("emptyNet", None)
-                        ##
-                        if event["result"]["strength"].get("code", None) == "EVEN":
-                            curr_event["strength_shorthand"] = 0
-                            curr_event["strength_even"] = 1
-                            curr_event["strength_powerplay"] = 0
-                        elif event["result"]["strength"].get("code", None) == "PPG":
-                            curr_event["strength_shorthand"] = 0
-                            curr_event["strength_even"] = 0
-                            curr_event["strength_powerplay"] = 1
-                        else:
-                            curr_event["strength_shorthand"] = 1
-                            curr_event["strength_even"] = 0
-                            curr_event["strength_powerplay"] = 0
-                    else:
-                        curr_event["empty_net"] = False
-                        curr_event["strength_shorthand"] = None
-                        curr_event["strength_even"] = None
-                        curr_event["strength_powerplay"] = None
-
-                    tabular_data.append(curr_event)
+        # unpacks the list of dicts
+        tabular_data: list[dict] = list(itertools.chain.from_iterable(nested_tabular_data))
 
         return pd.DataFrame(tabular_data)
+
+
+    @staticmethod
+    def format_game(game: dict) -> list[dict]:
+        events = []
+
+        event_list = game["liveData"]["plays"]["allPlays"]
+
+        for eventIdx in range(len(event_list)):
+            event = game["liveData"]["plays"]["allPlays"][eventIdx]
+
+            if (
+                event["result"]["event"] == "Shot"
+                or event["result"]["event"] == "Goal"
+            ):
+                curr_event = {}
+
+                curr_event["game_starttime"] = game["gameData"]["datetime"]["dateTime"]
+                curr_event["game_endtime"] = game["gameData"]["datetime"]["endDateTime"]
+                curr_event["game_id"] = game["gamePk"]
+
+                curr_event["datetime"] = event['about']['dateTime']
+                curr_event["offense_team_id"] = event["team"]["id"]
+                curr_event["offense_team_name"] = event["team"]["name"]
+                curr_event["offense_team_tricode"] = event["team"]["triCode"]
+                curr_event["goal"] = (0 if event["result"]["event"] == "Shot" else 1)
+                curr_event["x_coords"] = event["coordinates"].get("x", None)
+                curr_event["y_coords"] = event["coordinates"].get("y", None)
+                curr_event["period"] = event['about']['period']
+                curr_event["period_time"] = event['about']['periodTime']
+
+                for p in event["players"]:
+                    if p["playerType"] == "Goalie":
+                        curr_event["goalie_id"] = p["player"]["id"]
+                        curr_event["goalie_name"] = p["player"]["fullName"]
+
+                for p in event["players"]:
+                    if p["playerType"] == "Shooter" or p["playerType"] == "Scorer":
+                        curr_event["shooter_id"] = p["player"]["id"]
+                        curr_event["shooter_name"] = p["player"]["fullName"]
+
+                curr_event["shot_type"] = event["result"].get("secondaryType", None)
+
+                ## Info Event Precedent
+                prev_event = game["liveData"]["plays"]["allPlays"][eventIdx-1]
+                curr_event["prev_type"] = prev_event["result"]["event"]
+                curr_event["prev_x_coords"] = prev_event["coordinates"].get("x", None)
+                curr_event["prev_y_coords"] = prev_event["coordinates"].get("y", None)
+                curr_event["prev_datetime"] = prev_event['about']['dateTime']
+
+                if event["result"]["event"] == "Goal":
+                    curr_event["empty_net"] = event["result"].get("emptyNet", None)
+                    ##
+                    if event["result"]["strength"].get("code", None) == "EVEN":
+                        curr_event["strength_shorthand"] = 0
+                        curr_event["strength_even"] = 1
+                        curr_event["strength_powerplay"] = 0
+                    elif event["result"]["strength"].get("code", None) == "PPG":
+                        curr_event["strength_shorthand"] = 0
+                        curr_event["strength_even"] = 0
+                        curr_event["strength_powerplay"] = 1
+                    else:
+                        curr_event["strength_shorthand"] = 1
+                        curr_event["strength_even"] = 0
+                        curr_event["strength_powerplay"] = 0
+                else:
+                    curr_event["empty_net"] = False
+                    curr_event["strength_shorthand"] = None
+                    curr_event["strength_even"] = None
+                    curr_event["strength_powerplay"] = None
+
+                events.append(curr_event)
+
+        return events
+
         
     @staticmethod
     def format_folder(in_dir:str, out_dir:str) -> None:

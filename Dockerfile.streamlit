@@ -1,0 +1,19 @@
+FROM python:3.9
+
+RUN mkdir "project"
+WORKDIR project
+
+COPY requirements.txt .
+RUN python3 -m pip install -r requirements.txt
+
+COPY streamlit/app.py .
+
+COPY ift6758/ ift6758/
+COPY setup.py .
+RUN python setup.py install
+
+EXPOSE 8501
+
+CMD ["streamlit","run","app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+
+
