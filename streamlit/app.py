@@ -27,7 +27,7 @@ with st.sidebar:
             st.error('model loading failed')
 
     # display supported models
-    st.text('Current Supported models:\n- naive-bayes\n- gradient-boost\n- adaboost-stratified\n- quadratic-discriminant\n- random-forest')
+    st.text('Current Supported models:\n- naive-bayes\n- gradient-boost\n- adaboost-stratified\n- quadratic-discriminant')
 
 # BODY
 id = st.text_input('game id', value=2021020001)

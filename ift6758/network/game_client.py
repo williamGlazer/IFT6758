@@ -7,8 +7,8 @@ from ..data.extractor import NHLExtractor
 from ..data.cleaner import NHLCleaner
 from ..pipeline.pipeline import DEFAULT_TRANSFORMATIONS
 
-class GameClient:
 
+class GameClient:
     @staticmethod
     @functools.lru_cache(maxsize=128, typed=False)  # result caching
     def get_game_data(game_id: int) -> pd.DataFrame:
@@ -24,5 +24,3 @@ class GameClient:
         processed = chain(df, DEFAULT_TRANSFORMATIONS)
 
         return processed
-
-

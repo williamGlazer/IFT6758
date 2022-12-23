@@ -3,15 +3,15 @@ import warnings
 from logging.config import dictConfig
 from pathlib import Path
 
+import sklearn
 from comet_ml import API
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 import json
 import os
 import pandas as pd
 import pickle
 
 LOG_FILE = os.environ.get("FLASK_LOG", "../flask.log")
-os.environ["COMET_API_KEY"] = "8xjLFJfXYPcxbIanNSTVnZI4O"
 
 MODEL_DIR = "../data/models"
 DEFAULT_MODEL = f"{MODEL_DIR}/default.pkl"
@@ -48,24 +48,38 @@ dictConfig(
 app = Flask(__name__)
 
 # suppress sklearn UserWarning when de-pickling adaboost
-warnings.filterwarnings('ignore', category=UserWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+
+app.logger.info("server is up!")
 
 
-def get_model():
+"""
+APP FUNCTIONNALITY:
+
+the server stores pickled sklearn files within ../data/models/
+upon /predict request, loads the file named default.pkl and outputs a prediction probability
+to switch the model, if the file is not found on disk, it is fetched from the web
+"""
+
+
+def get_model() -> sklearn.base.BaseEstimator:
     """gets default pickled sklearn.base.BaseEstimator model"""
     if not Path(DEFAULT_MODEL).exists():
         api = API()
         api.download_registry_model(
-            'williamglazer',
-            'naive-bayes',
-            '1.0.0',
+            "williamglazer",
+            "naive-bayes",
+            "1.0.0",
             output_path=f"{MODEL_DIR}/staging/",
-            expand=True
+            expand=True,
         )
         files = os.listdir(f"{MODEL_DIR}/staging/")
         assert len(files) == 1
-        shutil.move(f"{MODEL_DIR}/staging/{files[0]}", MODEL_DIR+'/williamglazer-naive-bayes-1.0.0.pkl')
-        set_model(MODEL_DIR+'/williamglazer-naive-bayes-1.0.0.pkl')
+        shutil.move(
+            f"{MODEL_DIR}/staging/{files[0]}",
+            MODEL_DIR + "/williamglazer-naive-bayes-1.0.0.pkl",
+        )
+        set_model(MODEL_DIR + "/williamglazer-naive-bayes-1.0.0.pkl")
 
     with open(DEFAULT_MODEL, "rb") as f:
         app.logger.info(f"fetching model from {DEFAULT_MODEL}: ")
@@ -80,44 +94,13 @@ def set_model(path: str):
     app.logger.info(f"setting default model to {path}")
     return shutil.copyfile(path, DEFAULT_MODEL)
 
-@app.route('/')
-def hello():
-    html  = "<!doctype html><html><head>\n"
-    html += "<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'>\n"
-    html += "<script>\n"
-    html += "  var form = document.getElementById('myForm');\n"
-    html += "  form.onsubmit = function(event){\n"
-    html += "    var xhr = new XMLHttpRequest();\n"
-    html += "    xhr.open('POST','/download_registry_model')\n"
-    html += "    xhr.setRequestHeader(\"Content-Type\", \"application/json\");\n"
-    html += "    xhr.send(JSON.stringify($('#myForm').serializeArray()));\n"
-    html += "    xhr.onreadystatechange = function() {\n"
-    html += "        if (xhr.readyState == XMLHttpRequest.DONE) {\n"
-    html += "            form.reset(); \n"
-    html += "        }\n"
-    html += "    }\n"
-    html += "    return false; \n"
-    html += "  }\n"
-    html += "</script>"
-    html += "</head><body>\n"
-    html += "<h1>Bienvenue web-srv en localhost:8080</h1>\n"
-    html += "<div> workspace -- model -- version </div>\n"
-    html += "<form action='#' method='post' id='myForm' >\n"
-    html += "  <input type='text' name='workspace' value='williamglazer' />\n"
-    html += "  <input type='text' name='model'     value='best_model' />\n"
-    html += "  <input type='text' name='version'   value='' />\n"
-    html += "  <input type='submit' value='submit'  />\n"
-    html += "</form>\n"
-    html += "<br><a href='/logs' > voir logs </a><br>\n"
-    html += "</body></html>\n"
-
-    return html
 
 @app.route("/logs", methods=["GET"])
 def logs():
     """Reads data from the log file and returns them as the response"""
     with open(LOG_FILE, "r") as f:
-        return jsonify(f.read())
+        logs = f.read()
+    return Response(logs, mimetype="text/plain")
 
 
 @app.route("/download_registry_model", methods=["POST"])
@@ -152,11 +135,11 @@ def download_registry_model():
             app.logger.info(f"downloading model {model_name} to {MODEL_DIR}/staging")
             api = API()
             api.download_registry_model(
-                data['workspace'],
-                data['model'],
-                data['version'],
+                data["workspace"],
+                data["model"],
+                data["version"],
                 output_path=f"{MODEL_DIR}/staging",
-                expand=True
+                expand=True,
             )
             app.logger.info(f"done!")
 
