@@ -10,9 +10,9 @@ from ..pipeline.pipeline import DEFAULT_TRANSFORMATIONS
 
 class GameClient:
     @staticmethod
-    @functools.lru_cache(maxsize=128, typed=False)  # result caching
     def get_game_data(game_id: int) -> pd.DataFrame:
         raw = NHLExtractor().get_game_data(game_id)
+
         clean = NHLCleaner.format_game(raw)
 
         def chain(data: Any, functions: list[callable]) -> Any:

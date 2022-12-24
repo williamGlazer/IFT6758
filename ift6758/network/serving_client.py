@@ -22,14 +22,19 @@ class ServingClient:
         """
         data = X.to_json()
         serialized_data = json.loads(data)
-        response = requests.post(f"{self.base_url}/predict", json=serialized_data)
+        response = requests.post(
+            f'{self.base_url}/predict',
+            json=serialized_data
+        )
         body = response.json()
         df = pd.DataFrame.from_records(body)
         return df
 
     def logs(self) -> str:
         """Get server logs"""
-        response = requests.get(f"{self.base_url}/logs")
+        response = requests.get(
+            f'{self.base_url}/logs'
+        )
         return response.json()
 
     def download_registry_model(self, workspace: str, model: str, version: str) -> int:
@@ -52,7 +57,8 @@ class ServingClient:
         }
         serialized_data = json.dumps(data)
         response = requests.post(
-            f"{self.base_url}/download_registry_model", json=serialized_data
+            f"{self.base_url}/download_registry_model",
+            json=serialized_data
         )
 
         return response.json()
